@@ -1,0 +1,41 @@
+{
+  "current": "v6",
+  "versions": [
+    {
+      "version": "v1",
+      "created": "2026-04-04 22:25:57",
+      "store_count": 37,
+      "note": ""
+    },
+    {
+      "version": "v2",
+      "created": "2026-04-05 00:32:00",
+      "store_count": 37,
+      "note": ""
+    },
+    {
+      "version": "v3",
+      "created": "2026-04-05 00:47:14",
+      "store_count": 37,
+      "note": "混合方式：优先使用高德API行政区划，地址关键词作为备选"
+    },
+    {
+      "version": "v4",
+      "created": "2026-04-05 00:47:57",
+      "store_count": 37,
+      "note": "扩展地址关键词映射，覆盖更多街道"
+    },
+    {
+      "version": "v5",
+      "created": "2026-04-05 00:48:22",
+      "store_count": 37,
+      "note": "补充燕罗/岗胜等关键词，完善街道映射"
+    },
+    {
+      "version": "v6",
+      "created": "2026-04-05 00:53:20",
+      "store_count": 37,
+      "note": "门店筛选改版 + 序号三位数"
+    }
+  ]
+}

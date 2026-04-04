@@ -1,0 +1,52 @@
+- generic [ref=e1]:
+  - list [ref=e4]:
+    - listitem [ref=e5]:
+      - link [ref=e6] [cursor=pointer]:
+        - /url: /
+    - listitem [ref=e7]:
+      - link "发现" [ref=e8] [cursor=pointer]:
+        - /url: javascript:void(0);
+        - generic [ref=e9]: 发现
+    - listitem [ref=e10]:
+      - link "活动" [ref=e11] [cursor=pointer]:
+        - /url: /contest
+        - generic [ref=e12]: 活动
+    - listitem [ref=e13]:
+      - link "摄影师" [ref=e14] [cursor=pointer]:
+        - /url: javascript:void(0);
+        - generic [ref=e15]: 摄影师
+    - listitem [ref=e16]:
+      - link "部落" [ref=e17] [cursor=pointer]:
+        - /url: /n/m/tribe/introduction
+        - generic [ref=e18]: 部落
+    - listitem [ref=e19]:
+      - link "签约供稿" [ref=e20] [cursor=pointer]:
+        - /url: "javascript: void(0)"
+        - generic [ref=e21]: 签约供稿
+    - listitem [ref=e22]:
+      - link [ref=e23] [cursor=pointer]:
+        - /url: javascript:void(0)
+    - listitem [ref=e25]:
+      - link "登录" [ref=e26] [cursor=pointer]:
+        - /url: /user/login?redirect=http://www.500px.me/community/index.html
+        - generic [ref=e27]: 登录
+    - listitem [ref=e28]:
+      - link "注册" [ref=e29] [cursor=pointer]:
+        - /url: /user/registerMe?redirect=http://www.500px.me/community/index.html
+        - generic [ref=e30]: 注册
+  - generic [ref=e33]:
+    - generic [ref=e36]:
+      - textbox "搜索作品、活动、摄影师或部落" [active] [ref=e37]: 鲩鱼
+      - generic [ref=e39] [cursor=pointer]: 相似度
+      - generic [ref=e41] [cursor=pointer]: 图片
+      - generic [ref=e43]:
+        - generic [ref=e48] [cursor=pointer]: 只看组图
+        - generic [ref=e52] [cursor=pointer]: 全部类别
+    - heading "没有查询到任何关于“鲩鱼”的结果" [level=2] [ref=e61]
+  - text: 、
+  - generic [ref=e64]:
+    - heading "提示" [level=3] [ref=e66]
+    - generic [ref=e67]: 请登录后查看更多精彩内容
+    - generic [ref=e68]:
+      - generic [ref=e69] [cursor=pointer]: 取消
+      - generic [ref=e70] [cursor=pointer]: 去登录

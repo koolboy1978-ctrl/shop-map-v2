@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>竞品门店地图标注工具</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; display: flex; height: 100vh; overflow: hidden; }
+
+  /* 左侧面板 */
+  #sidebar {
+    width: 340px;
+    background: #f8f9fa;
+    border-right: 1px solid #dee2e6;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  #sidebar-header {
+    padding: 14px 16px;
+    background: #2c3e50;
+    color: white;
+    flex-shrink: 0;
+  }
+  #sidebar-header h2 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  #sidebar-header p { font-size: 12px; opacity: 0.8; }
+  #stats {
+    display: flex; gap: 8px; margin-top: 10px;
+  }
+  .stat-badge {
+    background: rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 3px 10px;
+    font-size: 12px;
+  }
+  .stat-badge b { color: #ffd700; }
+
+  /* 搜索框 */
+  #search-box {
+    padding: 10px 12px;
+    border-bottom: 1px solid #dee2e6;
+    flex-shrink: 0;
+  }
+  #search-box input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+  }
+  #search-box input:focus { border-color: #3498db; }
+
+  /* 区域筛选 */
+  #filter-box {
+    padding: 8px 12px;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    flex-shrink: 0;
+    max-height: 80px;
+    overflow-y: auto;
+  }
+  .filter-btn {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    cursor: pointer;
+    border: 1px solid #ced4da;
+    background: white;
+    color: #555;
+    transition: all 0.2s;
+  }
+  .filter-btn.active { background: #3498db; color: white; border-color: #3498db; }
+  .filter-btn:hover { border-color: #3498db; }
+
+  /* 门店列表 */
+  #store-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px;
+  }
+  .store-item {
+    background: white;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.15s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .store-item:hover { border-color: #3498db; box-shadow: 0 2px 8px rgba(52,152,219,0.2); }
+  .store-item.selected { border-color: #e74c3c; background: #fef9f9; }
+  .store-item.placed { border-left: 4px solid #27ae60; }
+  .store-item.placed.selected { border-color: #e74c3c; }
+  .store-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .store-seq {
+    background: #3498db;
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .store-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2c3e50;
+    flex: 1;
+    line-height: 1.3;
+  }
+  .store-region {
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 10px;
+    background: #ecf0f1;
+    color: #7f8c8d;
+    flex-shrink: 0;
+  }
+  .store-addr {
+    font-size: 11px;
+    color: #95a5a6;
+    line-height: 1.4;
+    margin-top: 2px;
+  }
+  .store-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+  }
+  .status-dot.open { background: #27ae60; }
+  .status-dot.closed { background: #e74c3c; }
+  .status-dot.soon { background: #f39c12; }
+  .store-coords {
+    font-size: 10px;
+    color: #27ae60;
+    font-family: 'Courier New', monospace;
+    margin-top: 2px;
+  }
+
+  /* 底部工具栏 */
+  #toolbar {
+    padding: 10px 12px;
+    border-top: 1px solid #dee2e6;
+    background: white;
+    flex-shrink: 0;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tb-btn {
+    padding: 7px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .tb-btn.primary { background: #3498db; color: white; }
+  .tb-btn.primary:hover { background: #2980b9; }
+  .tb-btn.success { background: #27ae60; color: white; }
+  .tb-btn.success:hover { background: #1e8449; }
+  .tb-btn.secondary { background: #ecf0f1; color: #555; }
+  .tb-btn.secondary:hover { background: #bdc3c7; }
+  .tb-btn.danger { background: #e74c3c; color: white; }
+  .tb-btn.danger:hover { background: #c0392b; }
+
+  /* 地图 */
+  #map { flex: 1; }
+
+  /* Toast */
+  #toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    z-index: 9999;
+    transition: transform 0.3s;
+    pointer-events: none;
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* 说明浮层 */
+  #guide {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 12px;
+    color: #555;
+    z-index: 1000;
+    max-width: 260px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    line-height: 1.6;
+  }
+  #guide h3 { font-size: 13px; color: #2c3e50; margin-bottom: 6px; }
+  #guide .close-btn {
+    position: absolute; top: 8px; right: 10px;
+    cursor: pointer; color: #aaa; font-size: 16px;
+  }
+  #guide .close-btn:hover { color: #555; }
+</style>
+</head>
+<body>
+
+<!-- 左侧栏 -->
+<div id="sidebar">
+  <div id="sidebar-header">
+    <h2>🗺️ 竞品门店标注工具</h2>
+    <p>共 <b>37</b> 家门店，点击地图标注位置</p>
+    <div id="stats">
+      <span class="stat-badge">已标注 <b id="placed-count">0</b>/37</span>
+      <span class="stat-badge" style="background:rgba(255,215,0,0.2);color:#ffd700">待标注 <b id="remaining-count">37</b></span>
+    </div>
+  </div>
+
+  <div id="search-box">
+    <input type="text" id="search-input" placeholder="🔍 搜索门店名称或地址...">
+  </div>
+
+  <div id="filter-box">
+    <span class="filter-btn active" data-region="all">全部</span>
+    <span class="filter-btn" data-region="松岗">松岗 (7)</span>
+    <span class="filter-btn" data-region="沙井商圈">沙井商圈 (7)</span>
+    <span class="filter-btn" data-region="公明商圈">公明商圈 (5)</span>
+    <span class="filter-btn" data-region="光明新区">光明新区 (5)</span>
+    <span class="filter-btn" data-region="田寮/长圳">田寮/长圳 (5)</span>
+    <span class="filter-btn" data-region="福永">福永 (3)</span>
+    <span class="filter-btn" data-region="宝安">宝安 (2)</span>
+    <span class="filter-btn" data-region="圳美">圳美 (2)</span>
+    <span class="filter-btn" data-region="罗田/燕川">罗田/燕川 (1)</span>
+  </div>
+
+  <div id="store-list"></div>
+
+  <div id="toolbar">
+    <button class="tb-btn success" onclick="exportCoords()">📥 导出坐标JSON</button>
+    <button class="tb-btn secondary" onclick="generateMap()">🗺️ 生成地图</button>
+    <button class="tb-btn danger" onclick="clearAll()">🗑️ 清除全部</button>
+  </div>
+</div>
+
+<!-- 地图 -->
+<div id="map">
+  <div id="guide">
+    <span class="close-btn" onclick="this.parentElement.style.display='none'">×</span>
+    <h3>📌 使用说明</h3>
+    <p>1. 点击左侧门店选中</p>
+    <p>2. 在地图上点击标注位置</p>
+    <p>3. 标注自动保存到浏览器</p>
+    <p>4. 标注完成后导出坐标</p>
+    <p style="color:#e74c3c;margin-top:6px">⚠️ 当前为近似初始位置，请拖动调整</p>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ==================== 门店数据 ====================
+const ALL_STORES = [
+  {id:1, name:"渔虞·顺德鱼生·横县鱼生（福永店）", addr:"宝安区福永街道白石厦社区石龙头新村一巷5号101", region:"福永", center:[22.703,113.816], status:"营业中"},
+  {id:2, name:"鱼公元·鱼生（宝安福永店）", addr:"宝安区福安区裕华园东9栋", region:"福永", center:[22.706,113.818], status:"营业中"},
+  {id:3, name:"鱼公元·鱼生（光明店）", addr:"光明区横岭新村西区二巷3号102", region:"公明商圈", center:[22.779,113.920], status:"即将营业"},
+  {id:4, name:"鱼公元·鱼生（宝安塘尾店）", addr:"宝安区福海街道塘尾社区塘尾13区五巷11号", region:"宝安", center:[22.723,113.808], status:"营业中"},
+  {id:5, name:"鱼公元·鱼生（宝安沙井店）", addr:"宝安区沙井街道后亭社区四海云创大厦2栋107号", region:"宝安", center:[22.735,113.875], status:"营业中"},
+  {id:6, name:"满塘彩·大盘鱼·顺德菜（宝安福永店）", addr:"宝安区福永街道福永大道与怀德路交叉口", region:"福永", center:[22.709,113.820], status:"营业中"},
+  {id:7, name:"壹号顺德菜·粤菜（松岗店）", addr:"宝安区松岗街道松岗大道与河滨路交叉口", region:"松岗", center:[22.772,113.830], status:"营业中"},
+  {id:8, name:"横县鱼生（公明总店）", addr:"光明区公明街道民生路与望胜路交叉口", region:"公明商圈", center:[22.782,113.915], status:"营业中"},
+  {id:9, name:"鱼公元·鱼生（沙田坑店）", addr:"光明区马田街道沙田坑社区", region:"光明新区", center:[22.768,113.908], status:"营业中"},
+  {id:10, name:"渔笼园·横县鱼生·顺德鱼生（光明店）", addr:"光明区凤凰街道凤凰社区凤凰立交桥旁", region:"光明新区", center:[22.763,113.935], status:"营业中"},
+  {id:11, name:"渔虞·顺德鱼生·横县鱼生（松岗店）", addr:"宝安区松岗街道松岗社区松安路", region:"松岗", center:[22.774,113.832], status:"营业中"},
+  {id:12, name:"渔虞·顺德鱼生·横县鱼生（光明店）", addr:"光明区公明街道上村社区民生路169号", region:"光明新区", center:[22.781,113.918], status:"营业中"},
+  {id:13, name:"横县鱼生（楼岗店）", addr:"宝安区松岗街道楼岗社区楼岗大道", region:"松岗", center:[22.778,113.825], status:"营业中"},
+  {id:14, name:"横县鱼生广鱼庄（万丰店）", addr:"宝安区沙井街道万丰社区万丰路", region:"沙井商圈", center:[22.736,113.885], status:"营业中"},
+  {id:15, name:"横县鱼生（天源隆广场店）", addr:"宝安区松岗街道天源隆广场旁", region:"松岗", center:[22.770,113.828], status:"营业中"},
+  {id:16, name:"茉莉·横县鱼生·粤菜（松岗店）", addr:"宝安区松岗街道松岗综合市场旁", region:"松岗", center:[22.776,113.835], status:"营业中"},
+  {id:17, name:"横县鱼生（公明马园路店）", addr:"光明区公明街道马园路", region:"公明商圈", center:[22.784,113.912], status:"营业中"},
+  {id:18, name:"桂和横县鱼生（松岗店）", addr:"宝安区松岗街道桂水社区桂水路口", region:"松岗", center:[22.769,113.826], status:"营业中"},
+  {id:19, name:"横县鱼生（美食汇店）", addr:"光明区公明街道公明综合市场美食汇", region:"公明商圈", center:[22.780,113.916], status:"营业中"},
+  {id:20, name:"横县鱼生馆", addr:"光明区公明街道振明路与金安路交叉口", region:"公明商圈", center:[22.777,113.913], status:"营业中"},
+  {id:21, name:"茉莉横县鱼生（上南店）", addr:"宝安区沙井街道上南社区上南大道", region:"沙井商圈", center:[22.740,113.870], status:"营业中"},
+  {id:22, name:"陈记横县鱼生", addr:"宝安区松岗街道燕川社区燕罗路", region:"罗田/燕川", center:[22.765,113.815], status:"营业中"},
+  {id:23, name:"微渔生·横县鱼生·顺德鱼生（光明店）", addr:"光明区凤凰街道塘尾社区地铁6号线旁", region:"光明新区", center:[22.772,113.905], status:"营业中"},
+  {id:24, name:"何记横县鱼生馆（将围店）", addr:"光明区公明街道将石社区将围路", region:"光明新区", center:[22.774,113.905], status:"营业中"},
+  {id:25, name:"渔鲜生·横县鱼生·顺德鱼生（田寮店）", addr:"光明区玉塘街道田寮社区田寮路108号", region:"田寮/长圳", center:[22.762,113.892], status:"营业中"},
+  {id:26, name:"横县鱼生（田寮田盛路店）", addr:"光明区玉塘街道田寮社区田盛路", region:"田寮/长圳", center:[22.764,113.894], status:"营业中"},
+  {id:27, name:"南乡仔横县鱼生（沙井店）", addr:"宝安区沙井街道沙井大街218号", region:"沙井商圈", center:[22.738,113.878], status:"营业中"},
+  {id:28, name:"辉业横县鱼生", addr:"宝安区松岗街道沙浦社区沙二工业园", region:"松岗", center:[22.766,113.822], status:"营业中"},
+  {id:29, name:"鱼生缘横县鱼生店", addr:"宝安区沙井街道新桥社区新发路46号", region:"沙井商圈", center:[22.732,113.882], status:"营业中"},
+  {id:30, name:"渔之鲜·横县鱼生·顺德鱼生（沙井分店）", addr:"宝安区沙井街道民主社区三间仔商业街51号", region:"沙井商圈", center:[22.731,113.876], status:"营业中"},
+  {id:31, name:"渔匠·横县鱼生·顺德鱼生", addr:"宝安区沙井街道步涌社区步涌一路47号", region:"沙井商圈", center:[22.742,113.888], status:"营业中"},
+  {id:32, name:"桂来顺横县鱼生", addr:"宝安区沙井街道东塘社区东塘大道110号", region:"沙井商圈", center:[22.739,113.880], status:"营业中"},
+  {id:33, name:"明记横县鱼生大排档", addr:"光明区新湖街道圳美社区同富裕工业园5号", region:"圳美", center:[22.787,113.950], status:"营业中"},
+  {id:34, name:"温记横县鱼生（田寮店）", addr:"光明区玉塘街道田寮村长贵路与长祥路交叉口", region:"田寮/长圳", center:[22.760,113.888], status:"营业中"},
+  {id:35, name:"横县鱼生（玉泉东路店）", addr:"光明区玉塘街道玉泉东路", region:"田寮/长圳", center:[22.758,113.886], status:"营业中"},
+  {id:36, name:"正宗广西横县鱼生", addr:"光明区玉塘街道玉律社区玉律路69号", region:"田寮/长圳", center:[22.755,113.890], status:"营业中"},
+  {id:37, name:"横县鱼生（绘猫路店）", addr:"光明区新湖街道绘猫路", region:"圳美", center:[22.790,113.948], status:"营业中"},
+];
+
+// ==================== 区域颜色 ====================
+const REGION_COLORS = {
+  '松岗': '#e74c3c',
+  '沙井商圈': '#3498db',
+  '公明商圈': '#9b59b6',
+  '光明新区': '#f39c12',
+  '田寮/长圳': '#1abc9c',
+  '福永': '#e67e22',
+  '宝安': '#2ecc71',
+  '圳美': '#e91e63',
+  '罗田/燕川': '#795548',
+};
+const REGION_CIRCLE_OPACITY = 0.15;
+
+// ==================== 状态 ====================
+let placedMarkers = {};      // id -> {marker, latlng}
+let selectedId = null;
+let currentFilter = 'all';
+let searchQuery = '';
+
+// ==================== Leaflet 地图 ====================
+const map = L.map('map', {
+  center: [22.77, 113.87],
+  zoom: 12,
+  zoomControl: true,
+});
+
+// 尝试多个底图
+const tileLayers = [
+  { url: 'https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', attribution: '© OpenStreetMap contributors © CARTO' },
+  { url: 'https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', attribution: '© OpenStreetMap contributors © CARTO' },
+  { url: 'https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', attribution: '© OpenStreetMap contributors © CARTO' },
+  // 备用腾讯风格黑白底图（需网络）
+  { url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', attribution: '© CARTO' },
+];
+let tileIdx = 0;
+
+function addTileLayer() {
+  if (tileIdx >= tileLayers.length) return;
+  const t = tileLayers[tileIdx];
+  L.tileLayer(t.url, {
+    attribution: t.attribution,
+    maxZoom: 18,
+    subdomains: 'abcd',
+    errorTileUrl: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>',
+  }).on('tileerror', function(e) {
+    tileIdx++;
+    if (tileIdx < tileLayers.length) {
+      map.removeLayer(e.tileLayer);
+      addTileLayer();
+    }
+  }).addTo(map);
+}
+addTileLayer();
+
+// 区域背景圆形
+Object.entries(REGION_COLORS).forEach(([region, color]) => {
+  const storesInRegion = ALL_STORES.filter(s => s.region === region);
+  if (storesInRegion.length > 0) {
+    // 用区域内所有门店的中心点
+    const avgLat = storesInRegion.reduce((s, st) => s + st.center[0], 0) / storesInRegion.length;
+    const avgLng = storesInRegion.reduce((s, st) => s + st.center[1], 0) / storesInRegion.length;
+    L.circle([avgLat, avgLng], {
+      radius: 1800,
+      color: color,
+      fillColor: color,
+      fillOpacity: REGION_CIRCLE_OPACITY,
+      weight: 1.5,
+      dashArray: '4,4',
+    }).addTo(map).bindPopup(`<b>${region}</b><br>${storesInRegion.length}家门店`);
+  }
+});
+
+// 图例
+const legend = L.control({position: 'bottomright'});
+legend.onAdd = function() {
+  const div = L.DomUtil.create('div', 'leaflet-legend');
+  div.style.cssText = 'background:white;padding:10px 14px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.15);font-size:12px;line-height:1.8;';
+  div.innerHTML = '<b style="font-size:13px">📍 区域图例</b><br>';
+  Object.entries(REGION_COLORS).forEach(([region, color]) => {
+    const count = ALL_STORES.filter(s => s.region === region).length;
+    div.innerHTML += `<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${color};margin-right:6px"></span>${region} (${count})<br>`;
+  });
+  return div;
+};
+legend.addTo(map);
+
+// 中心标记（深圳市宝安区）
+L.marker([22.77, 113.87], {
+  icon: L.divIcon({
+    html: '<div style="background:#2c3e50;color:white;padding:3px 8px;border-radius:12px;font-size:11px;font-weight:bold;white-space:nowrap">深圳·宝安/光明</div>',
+    className: '', iconSize: [80, 24], iconAnchor: [40, 12]
+  })
+}).addTo(map).bindPopup('深圳市宝安区 / 光明区');
+
+// ==================== 核心函数 ====================
+
+function createMarker(store, autoPlaced = false) {
+  const color = REGION_COLORS[store.region] || '#333';
+  const icon = L.divIcon({
+    html: `<div style="
+      width:28px;height:28px;border-radius:50% 50% 50% 0;
+      background:${color};border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);
+      transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;
+    "><span style="transform:rotate(45deg);color:white;font-size:11px;font-weight:bold">${store.id}</span></div>`,
+    className: '',
+    iconSize: [28, 28],
+    iconAnchor: [14, 28],
+    popupAnchor: [0, -30],
+  });
+
+  const marker = L.marker(store.center, {
+    icon,
+    draggable: true,
+    autoPan: true,
+  });
+
+  const popupContent = `
+    <div style="min-width:200px;font-family:sans-serif">
+      <div style="font-weight:bold;font-size:14px;color:#2c3e50;margin-bottom:4px">${store.name}</div>
+      <div style="font-size:11px;color:#7f8c8d;margin-bottom:6px">📍 ${store.addr}</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px">
+        <span style="background:${color}20;color:${color};padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500">${store.region}</span>
+        <span style="background:#27ae60;opacity:0.8;color:white;padding:2px 8px;border-radius:10px;font-size:10px">${store.status}</span>
+      </div>
+      <div id="coords-${store.id}" style="font-size:11px;color:#27ae60;font-family:monospace;margin-top:4px">
+        📌 ${store.center[0].toFixed(5)}, ${store.center[1].toFixed(5)}
+        ${autoPlaced ? '<span style="color:#f39c12"> (待精确)</span>' : ''}
+      </div>
+    </div>
+  `;
+  marker.bindPopup(popupContent);
+
+  marker.on('dragend', function(e) {
+    const latlng = e.target.getLatLng();
+    updateStoreCoords(store.id, latlng.lat, latlng.lng);
+  });
+
+  marker.on('click', function() {
+    selectStore(store.id);
+  });
+
+  marker.addTo(map);
+  placedMarkers[store.id] = { marker, latlng: { lat: store.center[0], lng: store.center[1] }, autoPlaced };
+  return marker;
+}
+
+function updateStoreCoords(id, lat, lng) {
+  if (placedMarkers[id]) {
+    placedMarkers[id].latlng = { lat, lng };
+    const el = document.getElementById(`coords-${id}`);
+    if (el) el.innerHTML = `📌 ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+    saveToStorage();
+  }
+}
+
+function selectStore(id) {
+  // 取消之前选中
+  if (selectedId !== null) {
+    const prev = document.querySelector(`.store-item[data-id="${selectedId}"]`);
+    if (prev) prev.classList.remove('selected');
+  }
+  selectedId = id;
+  const el = document.querySelector(`.store-item[data-id="${id}"]`);
+  if (el) {
+    el.classList.add('selected');
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // 地图飞到该店
+  if (placedMarkers[id]) {
+    const { latlng } = placedMarkers[id];
+    map.flyTo([latlng.lat, latlng.lng], 15, { duration: 0.8 });
+    placedMarkers[id].marker.openPopup();
+  } else {
+    const store = ALL_STORES.find(s => s.id === id);
+    if (store) map.flyTo(store.center, 15, { duration: 0.8 });
+  }
+}
+
+// ==================== 初始化（从 localStorage 恢复） ====================
+function init() {
+  const saved = localStorage.getItem('shop_marker_coords');
+  const savedCoords = saved ? JSON.parse(saved) : {};
+
+  document.getElementById('store-list').innerHTML = '';
+  ALL_STORES.forEach(store => {
+    const isPlaced = !!savedCoords[store.id];
+    const coords = savedCoords[store.id] || null;
+
+    const item = document.createElement('div');
+    item.className = 'store-item' + (isPlaced ? ' placed' : '');
+    item.dataset.id = store.id;
+    item.dataset.region = store.region;
+
+    const color = REGION_COLORS[store.region] || '#333';
+    const statusClass = store.status === '营业中' ? 'open' : (store.status === '即将营业' ? 'soon' : 'closed');
+
+    item.innerHTML = `
+      <div class="store-header">
+        <div class="store-seq" style="background:${isPlaced ? color : '#bdc3c7'}">${store.id}</div>
+        <div class="store-name">${store.name}</div>
+        <span class="store-region" style="background:${color}15;color:${color}">${store.region}</span>
+      </div>
+      <div class="store-addr">${store.addr}</div>
+      <div class="store-status">
+        <span class="status-dot ${statusClass}"></span>
+        <span style="font-size:11px;color:#7f8c8d">${store.status}</span>
+      </div>
+      ${coords ? `<div class="store-coords">📌 ${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}</div>` : '<div class="store-coords" style="color:#bdc3c7">📌 尚未标注位置</div>'}
+    `;
+
+    item.addEventListener('click', () => selectStore(store.id));
+    document.getElementById('store-list').appendChild(item);
+  });
+
+  // 恢复已保存的坐标
+  Object.entries(savedCoords).forEach(([id, coords]) => {
+    const store = ALL_STORES.find(s => s.id === parseInt(id));
+    if (store) {
+      // 临时覆盖 center 为保存的坐标
+      const savedStore = { ...store, center: [coords.lat, coords.lng] };
+      createMarker(savedStore, false);
+      placedMarkers[store.id].latlng = { lat: coords.lat, lng: coords.lng };
+    }
+  });
+
+  // 对于未保存的店，用预置近似位置
+  ALL_STORES.forEach(store => {
+    if (!placedMarkers[store.id]) {
+      createMarker(store, true);
+    }
+  });
+
+  updateStats();
+}
+
+// ==================== 地图点击 ====================
+map.on('click', function(e) {
+  if (selectedId === null) {
+    showToast('请先在左侧点击选择要标注的门店');
+    return;
+  }
+  const { lat, lng } = e.latlng;
+  if (placedMarkers[selectedId]) {
+    placedMarkers[selectedId].marker.setLatLng([lat, lng]);
+  } else {
+    const store = ALL_STORES.find(s => s.id === selectedId);
+    if (store) {
+      const savedStore = { ...store, center: [lat, lng] };
+      createMarker(savedStore, false);
+    }
+  }
+  updateStoreCoords(selectedId, lat, lng);
+
+  // 更新列表中该门店的坐标显示
+  const item = document.querySelector(`.store-item[data-id="${selectedId}"]`);
+  if (item) {
+    item.classList.add('placed');
+    const coordEl = item.querySelector('.store-coords');
+    if (coordEl) coordEl.innerHTML = `📌 ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  }
+  updateStats();
+  showToast(`✅ 序号 ${selectedId} 标注成功！`);
+});
+
+// ==================== 搜索 ====================
+document.getElementById('search-input').addEventListener('input', function() {
+  searchQuery = this.value.toLowerCase().trim();
+  renderList();
+});
+
+function renderList() {
+  const items = document.querySelectorAll('.store-item');
+  let visible = 0;
+  items.forEach(item => {
+    const id = parseInt(item.dataset.id);
+    const store = ALL_STORES.find(s => s.id === id);
+    const matchFilter = currentFilter === 'all' || store.region === currentFilter;
+    const matchSearch = !searchQuery ||
+      store.name.toLowerCase().includes(searchQuery) ||
+      store.addr.toLowerCase().includes(searchQuery) ||
+      store.id.toString().includes(searchQuery);
+    item.style.display = (matchFilter && matchSearch) ? '' : 'none';
+    if (matchFilter && matchSearch) visible++;
+  });
+}
+
+// ==================== 区域筛选 ====================
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    currentFilter = this.dataset.region;
+    renderList();
+  });
+});
+
+// ==================== 统计 ====================
+function updateStats() {
+  const saved = JSON.parse(localStorage.getItem('shop_marker_coords') || '{}');
+  const placed = Object.keys(saved).length;
+  document.getElementById('placed-count').textContent = placed;
+  document.getElementById('remaining-count').textContent = 37 - placed;
+}
+
+// ==================== 保存/导出 ====================
+function saveToStorage() {
+  const data = {};
+  Object.entries(placedMarkers).forEach(([id, info]) => {
+    data[id] = info.latlng;
+  });
+  localStorage.setItem('shop_marker_coords', JSON.stringify(data));
+}
+
+function exportCoords() {
+  const data = {};
+  Object.entries(placedMarkers).forEach(([id, info]) => {
+    const store = ALL_STORES.find(s => s.id === parseInt(id));
+    data[id] = {
+      lat: info.latlng.lat,
+      lng: info.latlng.lng,
+      name: store ? store.name : '',
+      addr: store ? store.addr : '',
+      region: store ? store.region : '',
+    };
+  });
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'shop_coordinates.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('📥 坐标已导出！');
+}
+
+// ==================== 生成地图 ====================
+function generateMap() {
+  const coords = JSON.parse(localStorage.getItem('shop_marker_coords') || '{}');
+  if (Object.keys(coords).length === 0) {
+    showToast('⚠️ 请先在地图上标注至少一个门店位置');
+    return;
+  }
+  exportCoords();
+  showToast('🗺️ 坐标已导出，请用坐标数据生成正式地图！');
+}
+
+// ==================== 清除 ====================
+function clearAll() {
+  if (!confirm('确定清除所有标注？此操作不可恢复。')) return;
+  localStorage.removeItem('shop_marker_coords');
+  location.reload();
+}
+
+// ==================== Toast ====================
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ==================== 启动 ====================
+init();
+</script>
+</body>
+</html>

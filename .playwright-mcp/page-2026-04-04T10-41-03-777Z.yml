@@ -1,0 +1,47 @@
+- generic [ref=e1]:
+  - list [ref=e4]:
+    - listitem [ref=e5]:
+      - link [ref=e6] [cursor=pointer]:
+        - /url: /
+    - listitem [ref=e7]:
+      - link "发现" [ref=e8] [cursor=pointer]:
+        - /url: javascript:void(0);
+        - generic [ref=e9]: 发现
+    - listitem [ref=e10]:
+      - link "活动" [ref=e11] [cursor=pointer]:
+        - /url: /contest
+        - generic [ref=e12]: 活动
+    - listitem [ref=e13]:
+      - link "摄影师" [ref=e14] [cursor=pointer]:
+        - /url: javascript:void(0);
+        - generic [ref=e15]: 摄影师
+    - listitem [ref=e16]:
+      - link "部落" [ref=e17] [cursor=pointer]:
+        - /url: /n/m/tribe/introduction
+        - generic [ref=e18]: 部落
+    - listitem [ref=e19]:
+      - link "签约供稿" [ref=e20] [cursor=pointer]:
+        - /url: "javascript: void(0)"
+        - generic [ref=e21]: 签约供稿
+    - listitem [ref=e22]:
+      - link [ref=e23] [cursor=pointer]:
+        - /url: javascript:void(0)
+    - listitem [ref=e25]:
+      - link "koolboy1978" [ref=e26] [cursor=pointer]:
+        - /url: /community/user-details/0874d166e497aa04364cbf6ad56be2732
+        - generic [ref=e27]: koolboy1978
+    - listitem [ref=e28]:
+      - link "上传" [ref=e29] [cursor=pointer]:
+        - /url: javascript:void(0)
+        - generic [ref=e31]: 上传
+    - listitem [ref=e32]:
+      - link [ref=e33] [cursor=pointer]:
+        - /url: /community/index.html?t=message
+  - generic [ref=e40]:
+    - textbox "搜索作品、活动、摄影师或部落" [active] [ref=e41]: 干鱼
+    - generic [ref=e43] [cursor=pointer]: 相似度
+    - generic [ref=e45] [cursor=pointer]: 图片
+    - generic [ref=e47]:
+      - generic [ref=e52] [cursor=pointer]: 只看组图
+      - generic [ref=e56] [cursor=pointer]: 全部类别
+  - text: 、

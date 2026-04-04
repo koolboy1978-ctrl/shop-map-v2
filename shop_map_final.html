@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_0e09c9994c81c394f1f80fdb6a462846 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    <div style="position:fixed;top:12px;left:50%;transform:translateX(-50%);background:#2c3e50;color:white;padding:10px 28px;border-radius:24px;font-size:14px;font-weight:bold;z-index:9999;box-shadow:0 4px 14px rgba(0,0,0,0.25);font-family:'PingFang SC','Microsoft YaHei',sans-serif;white-space:nowrap;border:1px solid rgba(255,255,255,0.1)">🗺️ 食为先·竞品门店分布地图 <span style="color:#ffd700">(37/37 家）</span></div>
+    <div style="position:fixed;bottom:28px;right:18px;background:rgba(255,255,255,0.97);padding:14px 18px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,0.15);font-size:12px;z-index:9999;line-height:2.1;font-family:'PingFang SC','Microsoft YaHei',sans-serif;border:1px solid rgba(0,0,0,0.08)"><div style="font-size:13px;font-weight:bold;color:#2c3e50;margin-bottom:6px;border-bottom:1px solid #eee;padding-bottom:6px">📍 区域图例</div><span style="display:inline-block;width:13px;height:13px;border-radius:50%;background:#e74c3c;margin-right:7px"></span>松岗 (7)<br><span style="display:inline-block;width:13px;height:13px;border-radius:50%;background:#3498db;margin-right:7px"></span>沙井商圈 (7)<br><span style="display:inline-block;width:13px;height:13px;border-radius:50%;background:#9b59b6;margin-right:7px"></span>公明商圈 (5)<br><span style="display:inline-block;width:13px;height:13px;border-radius:50%;background:#f39c12;margin-right:7px"></span>光明新区 (5)<br><span style="display:inline-block;width:13px;height:13px;border-radius:50%;background:#1abc9c;margin-right:7px"></span>田寮/长圳 (5)<br><span style="display:inline-block;width:13px;height:13px;border-radius:50%;background:#e67e22;margin-right:7px"></span>福永 (3)<br><span style="display:inline-block;width:13px;height:13px;border-radius:50%;background:#2ecc71;margin-right:7px"></span>宝安 (2)<br><span style="display:inline-block;width:13px;height:13px;border-radius:50%;background:#e91e63;margin-right:7px"></span>圳美 (2)<br><span style="display:inline-block;width:13px;height:13px;border-radius:50%;background:#795548;margin-right:7px"></span>罗田/燕川 (1)<br></div>
+    <div style="position:fixed;top:60px;right:18px;background:rgba(255,255,255,0.97);padding:12px 16px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,0.12);font-size:12px;z-index:9999;line-height:1.9;font-family:'PingFang SC','Microsoft YaHei',sans-serif;border:1px solid rgba(0,0,0,0.08);min-width:140px"><div style="font-size:12px;font-weight:bold;color:#2c3e50;margin-bottom:4px">📊 门店统计</div><div style="color:#27ae60">🟢 营业中: 11</div><div style="color:#f39c12">🟡 即将营业: 4</div><div style="color:#e74c3c">🔴 其他: 22</div></div>
+    
+            <div class="folium-map" id="map_0e09c9994c81c394f1f80fdb6a462846" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_0e09c9994c81c394f1f80fdb6a462846 = L.map(
+                "map_0e09c9994c81c394f1f80fdb6a462846",
+                {
+                    center: [22.74759155421242, 113.86015470180531],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 12,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_812854616da8fff45ed195a333b2f2e0 = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+                {"attribution": "\u00a9 OpenStreetMap contributors \u00a9 CARTO", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+                tile_layer_812854616da8fff45ed195a333b2f2e0.addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+    
+            var tile_layer_f434a7faf05eb6628a7d60579c90918b = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+                {"attribution": "\u00a9 CARTO", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+                tile_layer_f434a7faf05eb6628a7d60579c90918b.addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+    
+            var circle_10fe1e1d1a721dec43a5666587e98ec4 = L.circle(
+                [22.685229696614588, 113.81986561328124],
+                {"bubblingMouseEvents": true, "color": "#e67e22", "dashArray": "6,6", "dashOffset": null, "fill": true, "fillColor": "#e67e22", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2200, "stroke": true, "weight": 2}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+        var popup_b686a5fcd0af19b2c87d33766ff7fc01 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_88e35f67dc4102ad8af433604dd51eb2 = $(`<div id="html_88e35f67dc4102ad8af433604dd51eb2" style="width: 100.0%; height: 100.0%;"><b>福永</b><br>3 家门店</div>`)[0];
+                popup_b686a5fcd0af19b2c87d33766ff7fc01.setContent(html_88e35f67dc4102ad8af433604dd51eb2);
+            
+        
+
+        circle_10fe1e1d1a721dec43a5666587e98ec4.bindPopup(popup_b686a5fcd0af19b2c87d33766ff7fc01)
+        ;
+
+        
+    
+    
+            var circle_022d5b0e01d4149519655e477283597c = L.circle(
+                [22.7858847765625, 113.87995782031251],
+                {"bubblingMouseEvents": true, "color": "#9b59b6", "dashArray": "6,6", "dashOffset": null, "fill": true, "fillColor": "#9b59b6", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2200, "stroke": true, "weight": 2}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+        var popup_0270e930f5df8a799613dfa85a7bc9d4 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_49431f26f9f1c25bfd643f923fbe2f9a = $(`<div id="html_49431f26f9f1c25bfd643f923fbe2f9a" style="width: 100.0%; height: 100.0%;"><b>公明商圈</b><br>5 家门店</div>`)[0];
+                popup_0270e930f5df8a799613dfa85a7bc9d4.setContent(html_49431f26f9f1c25bfd643f923fbe2f9a);
+            
+        
+
+        circle_022d5b0e01d4149519655e477283597c.bindPopup(popup_0270e930f5df8a799613dfa85a7bc9d4)
+        ;
+
+        
+    
+    
+            var circle_5c222fd224765ad22624baf2dd41a633 = L.circle(
+                [22.73253928710938, 113.81070747851564],
+                {"bubblingMouseEvents": true, "color": "#2ecc71", "dashArray": "6,6", "dashOffset": null, "fill": true, "fillColor": "#2ecc71", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2200, "stroke": true, "weight": 2}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+        var popup_2213f7a1d29defb77d7906d54c38e2e3 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_8ee63fa31a3104171caa70a1c48c2b2b = $(`<div id="html_8ee63fa31a3104171caa70a1c48c2b2b" style="width: 100.0%; height: 100.0%;"><b>宝安</b><br>2 家门店</div>`)[0];
+                popup_2213f7a1d29defb77d7906d54c38e2e3.setContent(html_8ee63fa31a3104171caa70a1c48c2b2b);
+            
+        
+
+        circle_5c222fd224765ad22624baf2dd41a633.bindPopup(popup_2213f7a1d29defb77d7906d54c38e2e3)
+        ;
+
+        
+    
+    
+            var circle_dcd0f44dd7de40affc29476b8cdaf136 = L.circle(
+                [22.765355255022325, 113.83734518024552],
+                {"bubblingMouseEvents": true, "color": "#e74c3c", "dashArray": "6,6", "dashOffset": null, "fill": true, "fillColor": "#e74c3c", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2200, "stroke": true, "weight": 2}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+        var popup_3e3c8a606e3ffaa84e8753b767e05b17 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_065ad477321b11811628f4c84b8c8feb = $(`<div id="html_065ad477321b11811628f4c84b8c8feb" style="width: 100.0%; height: 100.0%;"><b>松岗</b><br>7 家门店</div>`)[0];
+                popup_3e3c8a606e3ffaa84e8753b767e05b17.setContent(html_065ad477321b11811628f4c84b8c8feb);
+            
+        
+
+        circle_dcd0f44dd7de40affc29476b8cdaf136.bindPopup(popup_3e3c8a606e3ffaa84e8753b767e05b17)
+        ;
+
+        
+    
+    
+            var circle_0f7565d7576d0f608ba7883c58b21fd5 = L.circle(
+                [22.75720650078125, 113.90027769921873],
+                {"bubblingMouseEvents": true, "color": "#f39c12", "dashArray": "6,6", "dashOffset": null, "fill": true, "fillColor": "#f39c12", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2200, "stroke": true, "weight": 2}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+        var popup_7baba972f580beda5e692df0d101e3fb = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_dfe7f7fc22767baf0ca12813f9721463 = $(`<div id="html_dfe7f7fc22767baf0ca12813f9721463" style="width: 100.0%; height: 100.0%;"><b>光明新区</b><br>5 家门店</div>`)[0];
+                popup_7baba972f580beda5e692df0d101e3fb.setContent(html_dfe7f7fc22767baf0ca12813f9721463);
+            
+        
+
+        circle_0f7565d7576d0f608ba7883c58b21fd5.bindPopup(popup_7baba972f580beda5e692df0d101e3fb)
+        ;
+
+        
+    
+    
+            var circle_d7085b869ebdb929377498b88e2a4e99 = L.circle(
+                [22.732644205636166, 113.82434595228793],
+                {"bubblingMouseEvents": true, "color": "#3498db", "dashArray": "6,6", "dashOffset": null, "fill": true, "fillColor": "#3498db", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2200, "stroke": true, "weight": 2}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+        var popup_fb642901bd49a337b54ad1c3737e4f9a = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_29b382faf24d5c912f9e5e6dfb878cb4 = $(`<div id="html_29b382faf24d5c912f9e5e6dfb878cb4" style="width: 100.0%; height: 100.0%;"><b>沙井商圈</b><br>7 家门店</div>`)[0];
+                popup_fb642901bd49a337b54ad1c3737e4f9a.setContent(html_29b382faf24d5c912f9e5e6dfb878cb4);
+            
+        
+
+        circle_d7085b869ebdb929377498b88e2a4e99.bindPopup(popup_fb642901bd49a337b54ad1c3737e4f9a)
+        ;
+
+        
+    
+    
+            var circle_eec5154d8aca8cb2d02e356a9040c15b = L.circle(
+                [22.809062984375004, 113.859749828125],
+                {"bubblingMouseEvents": true, "color": "#795548", "dashArray": "6,6", "dashOffset": null, "fill": true, "fillColor": "#795548", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2200, "stroke": true, "weight": 2}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+        var popup_a909419cccae8be1f6953928bf13f7dc = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_8de57337df19754a5e53d5a5d182fcb5 = $(`<div id="html_8de57337df19754a5e53d5a5d182fcb5" style="width: 100.0%; height: 100.0%;"><b>罗田/燕川</b><br>1 家门店</div>`)[0];
+                popup_a909419cccae8be1f6953928bf13f7dc.setContent(html_8de57337df19754a5e53d5a5d182fcb5);
+            
+        
+
+        circle_eec5154d8aca8cb2d02e356a9040c15b.bindPopup(popup_a909419cccae8be1f6953928bf13f7dc)
+        ;
+
+        
+    
+    
+            var circle_c93f0ddc192b77468a62a2e2b2579593 = L.circle(
+                [22.71276396015625, 113.90233640546873],
+                {"bubblingMouseEvents": true, "color": "#1abc9c", "dashArray": "6,6", "dashOffset": null, "fill": true, "fillColor": "#1abc9c", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2200, "stroke": true, "weight": 2}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+        var popup_fb7eb03414128fb8ec4d7ba7ee3f85a3 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_7f2edba4ffd2abb3cc5eca65de663777 = $(`<div id="html_7f2edba4ffd2abb3cc5eca65de663777" style="width: 100.0%; height: 100.0%;"><b>田寮/长圳</b><br>5 家门店</div>`)[0];
+                popup_fb7eb03414128fb8ec4d7ba7ee3f85a3.setContent(html_7f2edba4ffd2abb3cc5eca65de663777);
+            
+        
+
+        circle_c93f0ddc192b77468a62a2e2b2579593.bindPopup(popup_fb7eb03414128fb8ec4d7ba7ee3f85a3)
+        ;
+
+        
+    
+    
+            var circle_b193146215afe2859ce3ebddefada13f = L.circle(
+                [22.78289222265625, 113.92013239453124],
+                {"bubblingMouseEvents": true, "color": "#e91e63", "dashArray": "6,6", "dashOffset": null, "fill": true, "fillColor": "#e91e63", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2200, "stroke": true, "weight": 2}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+        var popup_ab0ca2d9c6bed0529994587964c32484 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_ef6829c5861228bff60f556d0dc5e2ea = $(`<div id="html_ef6829c5861228bff60f556d0dc5e2ea" style="width: 100.0%; height: 100.0%;"><b>圳美</b><br>2 家门店</div>`)[0];
+                popup_ab0ca2d9c6bed0529994587964c32484.setContent(html_ef6829c5861228bff60f556d0dc5e2ea);
+            
+        
+
+        circle_b193146215afe2859ce3ebddefada13f.bindPopup(popup_ab0ca2d9c6bed0529994587964c32484)
+        ;
+
+        
+    
+    
+            var marker_734a27590a65e8bd248ddf9b8fdebba0 = L.marker(
+                [22.67746248046875, 113.81576384765626],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_4eccf543b5a0e2e2898de9a63692a7dd = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#e67e22;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e1\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_734a27590a65e8bd248ddf9b8fdebba0.setIcon(div_icon_4eccf543b5a0e2e2898de9a63692a7dd);
+        
+    
+        var popup_0e90ce23be8158b1caa3033fa5ebdb00 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_83bccfdf9078f097b6736835be0da62d = $(`<div id="html_83bccfdf9078f097b6736835be0da62d" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #e67e22;padding-bottom:8px"><span style="color:#e67e22;font-size:16px">[1]</span> 渔虞·顺德鱼生·横县鱼生（福永店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区福永街道白石厦社区石龙头新村一巷5号101</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#27ae60;font-weight:600">🟢 营业中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">10:00-次日03:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥61 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.7 &nbsp;🏠 3.6 &nbsp;🙋 3.7</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">半年售21张</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.67746, 113.8157</div></div></div>`)[0];
+                popup_0e90ce23be8158b1caa3033fa5ebdb00.setContent(html_83bccfdf9078f097b6736835be0da62d);
+            
+        
+
+        marker_734a27590a65e8bd248ddf9b8fdebba0.bindPopup(popup_0e90ce23be8158b1caa3033fa5ebdb00)
+        ;
+
+        
+    
+    
+            marker_734a27590a65e8bd248ddf9b8fdebba0.bindTooltip(
+                `<div>
+                     [1] 渔虞·顺德鱼生·横县鱼生（福永店） · 福永
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_8713f8fb12a39488355248ef182dbb2e = L.marker(
+                [22.677597246093754, 113.82179249609374],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_f910bb8dfdc9421aff84fbaf7f2c5828 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#e67e22;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e2\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_8713f8fb12a39488355248ef182dbb2e.setIcon(div_icon_f910bb8dfdc9421aff84fbaf7f2c5828);
+        
+    
+        var popup_246aa66f19bc6acda899873c3dcc1a64 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_6229466a354924dabe9c3d2d0e3d8822 = $(`<div id="html_6229466a354924dabe9c3d2d0e3d8822" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #e67e22;padding-bottom:8px"><span style="color:#e67e22;font-size:16px">[2]</span> 鱼公元·鱼生（宝安福永店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区福永街道裕华园东9栋</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#27ae60;font-weight:600">🟢 营业中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">11:00-次日03:30</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥58 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.6 &nbsp;🏠 3.8 &nbsp;🙋 3.8</td></tr><tr><td style="padding:3px 0;color:#95a5a6">榜单</td><td style="padding:3px 0;color:#8e44ad;font-size:11px">宝安区粤菜新店榜·第1名</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">半年售72张</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.67759, 113.8217</div></div></div>`)[0];
+                popup_246aa66f19bc6acda899873c3dcc1a64.setContent(html_6229466a354924dabe9c3d2d0e3d8822);
+            
+        
+
+        marker_8713f8fb12a39488355248ef182dbb2e.bindPopup(popup_246aa66f19bc6acda899873c3dcc1a64)
+        ;
+
+        
+    
+    
+            marker_8713f8fb12a39488355248ef182dbb2e.bindTooltip(
+                `<div>
+                     [2] 鱼公元·鱼生（宝安福永店） · 福永
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_46095d6e3829d0b48443838b1de1a9bd = L.marker(
+                [22.783689839843753, 113.87602844921875],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_463c6778291633eaf07dd9091133c46b = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#9b59b6;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e3\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_46095d6e3829d0b48443838b1de1a9bd.setIcon(div_icon_463c6778291633eaf07dd9091133c46b);
+        
+    
+        var popup_1937395302d6b14dc749da91ed07e784 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_0529102cb8bed7cae7cf08bd47cef559 = $(`<div id="html_0529102cb8bed7cae7cf08bd47cef559" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #9b59b6;padding-bottom:8px"><span style="color:#9b59b6;font-size:16px">[3]</span> 鱼公元·鱼生（光明店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">光明区横岭新村西区二巷3号102</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#f39c12;font-weight:600">🟡 即将营业</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">12:00-次日03:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥58 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.7 &nbsp;🏠 3.8 &nbsp;🙋 3.7</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">限时优惠/共省23元</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.78368, 113.8760</div></div></div>`)[0];
+                popup_1937395302d6b14dc749da91ed07e784.setContent(html_0529102cb8bed7cae7cf08bd47cef559);
+            
+        
+
+        marker_46095d6e3829d0b48443838b1de1a9bd.bindPopup(popup_1937395302d6b14dc749da91ed07e784)
+        ;
+
+        
+    
+    
+            marker_46095d6e3829d0b48443838b1de1a9bd.bindTooltip(
+                `<div>
+                     [3] 鱼公元·鱼生（光明店） · 公明商圈
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ca0b2ebcc096bbe0dcb8ee3ca7fc3979 = L.marker(
+                [22.705616742187505, 113.80150622656251],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_50ce4c1e5876425380cc7b626725f38b = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#2ecc71;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e4\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_ca0b2ebcc096bbe0dcb8ee3ca7fc3979.setIcon(div_icon_50ce4c1e5876425380cc7b626725f38b);
+        
+    
+        var popup_7b7775d8c5d794ddea21b1d057b1fc57 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_f9b174a9ed9e672d60636d08030eb0f6 = $(`<div id="html_f9b174a9ed9e672d60636d08030eb0f6" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #2ecc71;padding-bottom:8px"><span style="color:#2ecc71;font-size:16px">[4]</span> 鱼公元·鱼生（宝安塘尾店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区福海街道塘尾社区塘尾13区五巷11号</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#f39c12;font-weight:600">🟡 即将营业</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">12:00-次日03:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥58 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.5 &nbsp;🏠 3.5 &nbsp;🙋 3.5</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省12元</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.70561, 113.8015</div></div></div>`)[0];
+                popup_7b7775d8c5d794ddea21b1d057b1fc57.setContent(html_f9b174a9ed9e672d60636d08030eb0f6);
+            
+        
+
+        marker_ca0b2ebcc096bbe0dcb8ee3ca7fc3979.bindPopup(popup_7b7775d8c5d794ddea21b1d057b1fc57)
+        ;
+
+        
+    
+    
+            marker_ca0b2ebcc096bbe0dcb8ee3ca7fc3979.bindTooltip(
+                `<div>
+                     [4] 鱼公元·鱼生（宝安塘尾店） · 宝安
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_5aa189c5e241782d9b0952516d6f2393 = L.marker(
+                [22.759461832031253, 113.81990873046877],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_99679bd3769dda562e3da55b7d72d0e0 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#2ecc71;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e5\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_5aa189c5e241782d9b0952516d6f2393.setIcon(div_icon_99679bd3769dda562e3da55b7d72d0e0);
+        
+    
+        var popup_7d68bbe29d43e58c441413456202266d = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_d4cc9656eff737e3559889e6d8d47203 = $(`<div id="html_d4cc9656eff737e3559889e6d8d47203" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #2ecc71;padding-bottom:8px"><span style="color:#2ecc71;font-size:16px">[5]</span> 鱼公元·鱼生（宝安沙井店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区沙井街道后亭社区四海云创大厦2栋107号</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#f39c12;font-weight:600">🟡 即将营业</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">11:30-次日04:30</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥58 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.8 &nbsp;🏠 3.8 &nbsp;🙋 3.7</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">限时优惠/共省23元</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.75946, 113.8199</div></div></div>`)[0];
+                popup_7d68bbe29d43e58c441413456202266d.setContent(html_d4cc9656eff737e3559889e6d8d47203);
+            
+        
+
+        marker_5aa189c5e241782d9b0952516d6f2393.bindPopup(popup_7d68bbe29d43e58c441413456202266d)
+        ;
+
+        
+    
+    
+            marker_5aa189c5e241782d9b0952516d6f2393.bindTooltip(
+                `<div>
+                     [5] 鱼公元·鱼生（宝安沙井店） · 宝安
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_140c1d82f71a8bd62f5b7cd656eec344 = L.marker(
+                [22.70062936328126, 113.82204049609373],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_b1c39db142b62c41e57f61df37296765 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#e67e22;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e6\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_140c1d82f71a8bd62f5b7cd656eec344.setIcon(div_icon_b1c39db142b62c41e57f61df37296765);
+        
+    
+        var popup_f6012e61f3c17882d0debd28d87bddba = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_1cadfe0537af986738bebf1013ad4015 = $(`<div id="html_1cadfe0537af986738bebf1013ad4015" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #e67e22;padding-bottom:8px"><span style="color:#e67e22;font-size:16px">[6]</span> 满塘彩·大盘鱼·顺德菜（宝安福永店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区凤塘大道50B-3-4号一楼（广生医院旁）</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#27ae60;font-weight:600">🟢 营业中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">11:00-14:00，17:00-21:30</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥85 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 4.7 &nbsp;🏠 4.7 &nbsp;🙋 4.7</td></tr><tr><td style="padding:3px 0;color:#95a5a6">榜单</td><td style="padding:3px 0;color:#8e44ad;font-size:11px">福永顺德菜好评榜·第1名/近30天144人打卡</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">半年售2000+</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.70062, 113.8220</div></div></div>`)[0];
+                popup_f6012e61f3c17882d0debd28d87bddba.setContent(html_1cadfe0537af986738bebf1013ad4015);
+            
+        
+
+        marker_140c1d82f71a8bd62f5b7cd656eec344.bindPopup(popup_f6012e61f3c17882d0debd28d87bddba)
+        ;
+
+        
+    
+    
+            marker_140c1d82f71a8bd62f5b7cd656eec344.bindTooltip(
+                `<div>
+                     [6] 满塘彩·大盘鱼·顺德菜（宝安福永店） · 福永
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_8776def08e57bef1976f36c7ef85bd79 = L.marker(
+                [22.767649660156252, 113.84802897265624],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_6c2611f3e03c3e79d7f42d54abf7c9cc = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#e74c3c;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e7\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_8776def08e57bef1976f36c7ef85bd79.setIcon(div_icon_6c2611f3e03c3e79d7f42d54abf7c9cc);
+        
+    
+        var popup_0df45f7f46e194efd04b440152ebf3b3 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_38d23090f3c0b806c660d83314283f19 = $(`<div id="html_38d23090f3c0b806c660d83314283f19" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #e74c3c;padding-bottom:8px"><span style="color:#e74c3c;font-size:16px">[7]</span> 壹号顺德菜·粤菜（松岗店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区立业路27号127-131号</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#27ae60;font-weight:600">🟢 营业中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">10:00-14:00，17:00-21:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥102 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.8 &nbsp;🏠 3.9 &nbsp;🙋 3.8</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省30元；半年售200+</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.76764, 113.8480</div></div></div>`)[0];
+                popup_0df45f7f46e194efd04b440152ebf3b3.setContent(html_38d23090f3c0b806c660d83314283f19);
+            
+        
+
+        marker_8776def08e57bef1976f36c7ef85bd79.bindPopup(popup_0df45f7f46e194efd04b440152ebf3b3)
+        ;
+
+        
+    
+    
+            marker_8776def08e57bef1976f36c7ef85bd79.bindTooltip(
+                `<div>
+                     [7] 壹号顺德菜·粤菜（松岗店） · 松岗
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_df790a168d5d9b16e9c903daff1c78c2 = L.marker(
+                [22.794435046874998, 113.892502421875],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_a6a9e5266889b1f8bd6aa26610f4a081 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#9b59b6;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e8\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_df790a168d5d9b16e9c903daff1c78c2.setIcon(div_icon_a6a9e5266889b1f8bd6aa26610f4a081);
+        
+    
+        var popup_c2e41dc07daaadd936013f0642a75e18 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_9d24be661013e75e57bef9f5a2f56655 = $(`<div id="html_9d24be661013e75e57bef9f5a2f56655" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #9b59b6;padding-bottom:8px"><span style="color:#9b59b6;font-size:16px">[8]</span> 横县鱼生（公明总店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">光明区长春北路181号</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 休息中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">16:00-次日03:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥84 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.7 &nbsp;🏠 3.6 &nbsp;🙋 3.7</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省171元</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.79443, 113.8925</div></div></div>`)[0];
+                popup_c2e41dc07daaadd936013f0642a75e18.setContent(html_9d24be661013e75e57bef9f5a2f56655);
+            
+        
+
+        marker_df790a168d5d9b16e9c903daff1c78c2.bindPopup(popup_c2e41dc07daaadd936013f0642a75e18)
+        ;
+
+        
+    
+    
+            marker_df790a168d5d9b16e9c903daff1c78c2.bindTooltip(
+                `<div>
+                     [8] 横县鱼生（公明总店） · 公明商圈
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e872c6b9746624438719f7563a4a46d5 = L.marker(
+                [22.753998033203125, 113.89782796679685],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_6717a34ab252f82a64f61ff215fd4569 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#f39c12;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e9\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_e872c6b9746624438719f7563a4a46d5.setIcon(div_icon_6717a34ab252f82a64f61ff215fd4569);
+        
+    
+        var popup_bca3e09b519449ce4b674a7b496d5800 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_d755059e3f04e6f9c1426e6e0a1d032a = $(`<div id="html_d755059e3f04e6f9c1426e6e0a1d032a" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #f39c12;padding-bottom:8px"><span style="color:#f39c12;font-size:16px">[9]</span> 鱼公元·鱼生（沙田坑店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">光明区凤凰街道塘尾路沙田坑北三巷17-1</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#27ae60;font-weight:600">🟢 营业中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">11:00-次日04:30</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥58 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">榜单</td><td style="padding:3px 0;color:#8e44ad;font-size:11px">新店</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">限时优惠/共省23元；半年售72</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.75399, 113.8978</div></div></div>`)[0];
+                popup_bca3e09b519449ce4b674a7b496d5800.setContent(html_d755059e3f04e6f9c1426e6e0a1d032a);
+            
+        
+
+        marker_e872c6b9746624438719f7563a4a46d5.bindPopup(popup_bca3e09b519449ce4b674a7b496d5800)
+        ;
+
+        
+    
+    
+            marker_e872c6b9746624438719f7563a4a46d5.bindTooltip(
+                `<div>
+                     [9] 鱼公元·鱼生（沙田坑店） · 光明新区
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_d2d4334aa22b4a2af44c525c45280699 = L.marker(
+                [22.759457812500003, 113.90251118749998],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_69731370270b5792df8f68bef52b7af9 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#f39c12;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e10\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_d2d4334aa22b4a2af44c525c45280699.setIcon(div_icon_69731370270b5792df8f68bef52b7af9);
+        
+    
+        var popup_b5e33d7cdf83ff342ece6cc80b1b37d3 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_e7d44bdffcff67b725b2de5acc3c803b = $(`<div id="html_e7d44bdffcff67b725b2de5acc3c803b" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #f39c12;padding-bottom:8px"><span style="color:#f39c12;font-size:16px">[10]</span> 渔笼园·横县鱼生·顺德鱼生（光明店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">光明区凤凰街道东方路将围新村</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#27ae60;font-weight:600">🟢 营业中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">11:00-次日05:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥59 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.7 &nbsp;🏠 3.5 &nbsp;🙋 3.8</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">限时秒杀/平台券共省72元</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.75945, 113.9025</div></div></div>`)[0];
+                popup_b5e33d7cdf83ff342ece6cc80b1b37d3.setContent(html_e7d44bdffcff67b725b2de5acc3c803b);
+            
+        
+
+        marker_d2d4334aa22b4a2af44c525c45280699.bindPopup(popup_b5e33d7cdf83ff342ece6cc80b1b37d3)
+        ;
+
+        
+    
+    
+            marker_d2d4334aa22b4a2af44c525c45280699.bindTooltip(
+                `<div>
+                     [10] 渔笼园·横县鱼生·顺德鱼生（光明店） · 光明新区
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_56678ce12a9319ab2d06214e8e5c23a3 = L.marker(
+                [22.76577303906251, 113.8297025859375],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_91df55fae6a8405310554ff5c7d132a2 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#e74c3c;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e11\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_56678ce12a9319ab2d06214e8e5c23a3.setIcon(div_icon_91df55fae6a8405310554ff5c7d132a2);
+        
+    
+        var popup_ae5832084e5c1f7c8f6dbd64667a2687 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_0970ffba9210fb89aa374407425c9c76 = $(`<div id="html_0970ffba9210fb89aa374407425c9c76" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #e74c3c;padding-bottom:8px"><span style="color:#e74c3c;font-size:16px">[11]</span> 渔虞·顺德鱼生·横县鱼生（松岗店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区松岗街道蚝涌新区133号102铺</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#27ae60;font-weight:600">🟢 营业中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">11:00-次日03:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥61 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省12元；半年售21</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.76577, 113.8297</div></div></div>`)[0];
+                popup_ae5832084e5c1f7c8f6dbd64667a2687.setContent(html_0970ffba9210fb89aa374407425c9c76);
+            
+        
+
+        marker_56678ce12a9319ab2d06214e8e5c23a3.bindPopup(popup_ae5832084e5c1f7c8f6dbd64667a2687)
+        ;
+
+        
+    
+    
+            marker_56678ce12a9319ab2d06214e8e5c23a3.bindTooltip(
+                `<div>
+                     [11] 渔虞·顺德鱼生·横县鱼生（松岗店） · 松岗
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_f1b3961ca20904916e7e066c1c7e298b = L.marker(
+                [22.753998033203125, 113.89782796679685],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_9532f41d71302372afcd83fd19239974 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#f39c12;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e12\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_f1b3961ca20904916e7e066c1c7e298b.setIcon(div_icon_9532f41d71302372afcd83fd19239974);
+        
+    
+        var popup_22dac82bfa2287aff41fdccb855de448 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_a8ad0e5f6fcff63f8366f7db0ee0c976 = $(`<div id="html_a8ad0e5f6fcff63f8366f7db0ee0c976" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #f39c12;padding-bottom:8px"><span style="color:#f39c12;font-size:16px">[12]</span> 渔虞·顺德鱼生·横县鱼生（光明店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">光明区凤凰街道塘尾社区沙田坑北三巷17号17-2号</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#27ae60;font-weight:600">🟢 营业中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">11:00-23:30</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥52 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">榜单</td><td style="padding:3px 0;color:#8e44ad;font-size:11px">新店</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省12元；半年售21</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.75399, 113.8978</div></div></div>`)[0];
+                popup_22dac82bfa2287aff41fdccb855de448.setContent(html_a8ad0e5f6fcff63f8366f7db0ee0c976);
+            
+        
+
+        marker_f1b3961ca20904916e7e066c1c7e298b.bindPopup(popup_22dac82bfa2287aff41fdccb855de448)
+        ;
+
+        
+    
+    
+            marker_f1b3961ca20904916e7e066c1c7e298b.bindTooltip(
+                `<div>
+                     [12] 渔虞·顺德鱼生·横县鱼生（光明店） · 光明新区
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_9e2c91039593f1b9a783eefb58dcbee6 = L.marker(
+                [22.768293101562502, 113.84874141406249],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_cdb133fa232a7ddff47c583dacc8c3e6 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#e74c3c;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e13\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_9e2c91039593f1b9a783eefb58dcbee6.setIcon(div_icon_cdb133fa232a7ddff47c583dacc8c3e6);
+        
+    
+        var popup_44a12a4611055185f3674e29a1f1c2e1 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_ae04879c18c673cc7517bd87a2491223 = $(`<div id="html_ae04879c18c673cc7517bd87a2491223" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #e74c3c;padding-bottom:8px"><span style="color:#e74c3c;font-size:16px">[13]</span> 横县鱼生（楼岗店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区立业路与楼岗大道交叉口东北60米</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 暂无营业时间</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥82 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.5 &nbsp;🏠 3.6 &nbsp;🙋 3.6</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">支付补贴2张10元无门槛券</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.76829, 113.8487</div></div></div>`)[0];
+                popup_44a12a4611055185f3674e29a1f1c2e1.setContent(html_ae04879c18c673cc7517bd87a2491223);
+            
+        
+
+        marker_9e2c91039593f1b9a783eefb58dcbee6.bindPopup(popup_44a12a4611055185f3674e29a1f1c2e1)
+        ;
+
+        
+    
+    
+            marker_9e2c91039593f1b9a783eefb58dcbee6.bindTooltip(
+                `<div>
+                     [13] 横县鱼生（楼岗店） · 松岗
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_b3d008591a8ffad38e543111b838a771 = L.marker(
+                [22.717741832031255, 113.81366708203123],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_4428b358f683b73a3370c1e8b8f7d5a7 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#3498db;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e14\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_b3d008591a8ffad38e543111b838a771.setIcon(div_icon_4428b358f683b73a3370c1e8b8f7d5a7);
+        
+    
+        var popup_47ff76cac9e507f8a3cdded855153b1d = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_7c3f85443a779ca11f5316a4605247a2 = $(`<div id="html_7c3f85443a779ca11f5316a4605247a2" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #3498db;padding-bottom:8px"><span style="color:#3498db;font-size:16px">[14]</span> 横县鱼生广鱼庄（万丰店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区万丰社区万安路178号</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 休息中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">17:00-次日02:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥65 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 4 &nbsp;🏠 3.9 &nbsp;🙋 4</td></tr><tr><td style="padding:3px 0;color:#95a5a6">榜单</td><td style="padding:3px 0;color:#8e44ad;font-size:11px">沙井商圈鱼火锅热门榜·第2名</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省20元；半年售8张</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.71774, 113.8136</div></div></div>`)[0];
+                popup_47ff76cac9e507f8a3cdded855153b1d.setContent(html_7c3f85443a779ca11f5316a4605247a2);
+            
+        
+
+        marker_b3d008591a8ffad38e543111b838a771.bindPopup(popup_47ff76cac9e507f8a3cdded855153b1d)
+        ;
+
+        
+    
+    
+            marker_b3d008591a8ffad38e543111b838a771.bindTooltip(
+                `<div>
+                     [14] 横县鱼生广鱼庄（万丰店） · 沙井商圈
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_fee873d9ae1998afa6650b8a5ea8c0eb = L.marker(
+                [22.777408039062507, 113.82952658593751],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_7acdcc7afa0fc68581e231a9cf978067 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#e74c3c;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e15\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_fee873d9ae1998afa6650b8a5ea8c0eb.setIcon(div_icon_7acdcc7afa0fc68581e231a9cf978067);
+        
+    
+        var popup_717085e0c064356da8231b493a6bd80f = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_a2ff0a113813b2366fb31b757f263f6d = $(`<div id="html_a2ff0a113813b2366fb31b757f263f6d" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #e74c3c;padding-bottom:8px"><span style="color:#e74c3c;font-size:16px">[15]</span> 横县鱼生（天源隆广场店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区松岗街道沙江路136号B1（天源隆广场内）</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 休息中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">17:30-次日02:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥39 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">限时优惠/共省33元；半年售1张</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.77740, 113.8295</div></div></div>`)[0];
+                popup_717085e0c064356da8231b493a6bd80f.setContent(html_a2ff0a113813b2366fb31b757f263f6d);
+            
+        
+
+        marker_fee873d9ae1998afa6650b8a5ea8c0eb.bindPopup(popup_717085e0c064356da8231b493a6bd80f)
+        ;
+
+        
+    
+    
+            marker_fee873d9ae1998afa6650b8a5ea8c0eb.bindTooltip(
+                `<div>
+                     [15] 横县鱼生（天源隆广场店） · 松岗
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e9fea12f718b09eaeaf2c9e08cfbe658 = L.marker(
+                [22.7635618046875, 113.83246535156249],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_c8cfe0ade3a2028664bafbe6620a8bdf = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#e74c3c;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e16\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_e9fea12f718b09eaeaf2c9e08cfbe658.setIcon(div_icon_c8cfe0ade3a2028664bafbe6620a8bdf);
+        
+    
+        var popup_5fa2d6dab626aa648b69c141293e4cfb = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_f6bdb7ab575b5f3e97404f396996fb5c = $(`<div id="html_f6bdb7ab575b5f3e97404f396996fb5c" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #e74c3c;padding-bottom:8px"><span style="color:#e74c3c;font-size:16px">[16]</span> 茉莉·横县鱼生·粤菜（松岗店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区松瑞路17号</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 休息中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">16:00-次日08:30</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥35 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.7 &nbsp;🏠 3.7 &nbsp;🙋 3.8</td></tr><tr><td style="padding:3px 0;color:#95a5a6">榜单</td><td style="padding:3px 0;color:#8e44ad;font-size:11px">松岗客家菜热门榜·第4名</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">限时秒杀/平台券共省393.6元；半年售86</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.76356, 113.8324</div></div></div>`)[0];
+                popup_5fa2d6dab626aa648b69c141293e4cfb.setContent(html_f6bdb7ab575b5f3e97404f396996fb5c);
+            
+        
+
+        marker_e9fea12f718b09eaeaf2c9e08cfbe658.bindPopup(popup_5fa2d6dab626aa648b69c141293e4cfb)
+        ;
+
+        
+    
+    
+            marker_e9fea12f718b09eaeaf2c9e08cfbe658.bindTooltip(
+                `<div>
+                     [16] 茉莉·横县鱼生·粤菜（松岗店） · 松岗
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_07cf89739fc4fa4c48f0440147686027 = L.marker(
+                [22.776154875000003, 113.872243125],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_205a86260866c1b1e78e16aff211c883 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#9b59b6;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e17\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_07cf89739fc4fa4c48f0440147686027.setIcon(div_icon_205a86260866c1b1e78e16aff211c883);
+        
+    
+        var popup_7ac1c850aefac237b9a29e9bcdc6fab0 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_b7accd0a446f9f7b977ca4fc500b900d = $(`<div id="html_b7accd0a446f9f7b977ca4fc500b900d" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #9b59b6;padding-bottom:8px"><span style="color:#9b59b6;font-size:16px">[17]</span> 横县鱼生（公明马园路店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">光明区马田街道马园路48号附近</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 暂无营业时间</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥81 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">榜单</td><td style="padding:3px 0;color:#8e44ad;font-size:11px">新店</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">支付补贴2张10元无门槛券</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.77615, 113.8722</div></div></div>`)[0];
+                popup_7ac1c850aefac237b9a29e9bcdc6fab0.setContent(html_b7accd0a446f9f7b977ca4fc500b900d);
+            
+        
+
+        marker_07cf89739fc4fa4c48f0440147686027.bindPopup(popup_7ac1c850aefac237b9a29e9bcdc6fab0)
+        ;
+
+        
+    
+    
+            marker_07cf89739fc4fa4c48f0440147686027.bindTooltip(
+                `<div>
+                     [17] 横县鱼生（公明马园路店） · 公明商圈
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ab61940f39049a1dae2796f8cfabbacd = L.marker(
+                [22.764158363281254, 113.83126102734374],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_4dfb78933ec68af6ca2eb2455244659d = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#e74c3c;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e18\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_ab61940f39049a1dae2796f8cfabbacd.setIcon(div_icon_4dfb78933ec68af6ca2eb2455244659d);
+        
+    
+        var popup_8be194832fb1886ce5ee0bb694284fd5 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_1b753914975c2f617b324c322ad45d3d = $(`<div id="html_1b753914975c2f617b324c322ad45d3d" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #e74c3c;padding-bottom:8px"><span style="color:#e74c3c;font-size:16px">[18]</span> 桂和横县鱼生（松岗店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区红腾三路与蚝涌一交叉口西80米</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 休息中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">16:00-次日02:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥74 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.5 &nbsp;🏠 3.6 &nbsp;🙋 3.5</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省10元；半年售6张</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.76415, 113.8312</div></div></div>`)[0];
+                popup_8be194832fb1886ce5ee0bb694284fd5.setContent(html_1b753914975c2f617b324c322ad45d3d);
+            
+        
+
+        marker_ab61940f39049a1dae2796f8cfabbacd.bindPopup(popup_8be194832fb1886ce5ee0bb694284fd5)
+        ;
+
+        
+    
+    
+            marker_ab61940f39049a1dae2796f8cfabbacd.bindTooltip(
+                `<div>
+                     [18] 桂和横县鱼生（松岗店） · 松岗
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_c8cb9a8510058103868ac61962c72673 = L.marker(
+                [22.7878891640625, 113.88536753906251],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_87cbf6f14739cb73fec35ea953562249 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#9b59b6;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e19\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_c8cb9a8510058103868ac61962c72673.setIcon(div_icon_87cbf6f14739cb73fec35ea953562249);
+        
+    
+        var popup_db5c4efb0c51b98c7fc0d22e72f24f77 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_810b98ab90263c2408db585162d3538f = $(`<div id="html_810b98ab90263c2408db585162d3538f" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #9b59b6;padding-bottom:8px"><span style="color:#9b59b6;font-size:16px">[19]</span> 横县鱼生（美食汇店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">光明区多宝路23号</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 休息中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">17:00-次日03:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥81 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.8 &nbsp;🏠 3.5 &nbsp;🙋 3.5</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省10元；半年售1张</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.78788, 113.8853</div></div></div>`)[0];
+                popup_db5c4efb0c51b98c7fc0d22e72f24f77.setContent(html_810b98ab90263c2408db585162d3538f);
+            
+        
+
+        marker_c8cb9a8510058103868ac61962c72673.bindPopup(popup_db5c4efb0c51b98c7fc0d22e72f24f77)
+        ;
+
+        
+    
+    
+            marker_c8cb9a8510058103868ac61962c72673.bindTooltip(
+                `<div>
+                     [19] 横县鱼生（美食汇店） · 公明商圈
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ac4bc8574e7bceb94dfadbbc259e90e6 = L.marker(
+                [22.78725495703125, 113.87364756640625],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_538a1c68ba8c3ab10ea257a01f21a128 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#9b59b6;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e20\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_ac4bc8574e7bceb94dfadbbc259e90e6.setIcon(div_icon_538a1c68ba8c3ab10ea257a01f21a128);
+        
+    
+        var popup_255550d627cb7315b01827be4d744e22 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_2c052bc4f06eca0264abaa66408283cc = $(`<div id="html_2c052bc4f06eca0264abaa66408283cc" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #9b59b6;padding-bottom:8px"><span style="color:#9b59b6;font-size:16px">[20]</span> 横县鱼生馆</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">光明区马田街道合力一路与振明路交叉口正北方向160米左右</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 休息中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">15:00-次日02:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥63 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.6 &nbsp;🏠 3.6 &nbsp;🙋 3.6</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省18元；半年售3张</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.78725, 113.8736</div></div></div>`)[0];
+                popup_255550d627cb7315b01827be4d744e22.setContent(html_2c052bc4f06eca0264abaa66408283cc);
+            
+        
+
+        marker_ac4bc8574e7bceb94dfadbbc259e90e6.bindPopup(popup_255550d627cb7315b01827be4d744e22)
+        ;
+
+        
+    
+    
+            marker_ac4bc8574e7bceb94dfadbbc259e90e6.bindTooltip(
+                `<div>
+                     [20] 横县鱼生馆 · 公明商圈
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ed3776bdace06b040a974b0510b984a4 = L.marker(
+                [22.723679453125005, 113.834474234375],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_8e072f8bbb9b42b53561074ebc95e930 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#3498db;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e21\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_ed3776bdace06b040a974b0510b984a4.setIcon(div_icon_8e072f8bbb9b42b53561074ebc95e930);
+        
+    
+        var popup_7b008ffbff3c03ba05447918249f08b4 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_7094d098a8e997091e7e7ffea0e3e6c3 = $(`<div id="html_7094d098a8e997091e7e7ffea0e3e6c3" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #3498db;padding-bottom:8px"><span style="color:#3498db;font-size:16px">[21]</span> 茉莉横县鱼生（上南店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区上寮工业区8号105</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#27ae60;font-weight:600">🟢 营业中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">全天营业</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥49 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.8 &nbsp;🏠 3.9 &nbsp;🙋 3.9</td></tr><tr><td style="padding:3px 0;color:#95a5a6">榜单</td><td style="padding:3px 0;color:#8e44ad;font-size:11px">神券最高膨至50</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省18元；半年售8张</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.72367, 113.8344</div></div></div>`)[0];
+                popup_7b008ffbff3c03ba05447918249f08b4.setContent(html_7094d098a8e997091e7e7ffea0e3e6c3);
+            
+        
+
+        marker_ed3776bdace06b040a974b0510b984a4.bindPopup(popup_7b008ffbff3c03ba05447918249f08b4)
+        ;
+
+        
+    
+    
+            marker_ed3776bdace06b040a974b0510b984a4.bindTooltip(
+                `<div>
+                     [21] 茉莉横县鱼生（上南店） · 沙井商圈
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_fbf2bb889d2c15540bd521a63a79600e = L.marker(
+                [22.809062984375004, 113.859749828125],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_e8b5a52fdcf4bcda47173fad946db698 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#795548;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e22\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_fbf2bb889d2c15540bd521a63a79600e.setIcon(div_icon_e8b5a52fdcf4bcda47173fad946db698);
+        
+    
+        var popup_c8e562f1ef3139866091c8e016155de4 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_dc5b58293134f4afc08b3a74b9aef046 = $(`<div id="html_dc5b58293134f4afc08b3a74b9aef046" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #795548;padding-bottom:8px"><span style="color:#795548;font-size:16px">[22]</span> 陈记横县鱼生</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区红湖路6-2</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 休息中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">17:00-次日02:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥77 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.5 &nbsp;🏠 3.5 &nbsp;🙋 3.6</td></tr><tr><td style="padding:3px 0;color:#95a5a6">榜单</td><td style="padding:3px 0;color:#8e44ad;font-size:11px">神券立减6</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省87元；半年售32</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.80906, 113.8597</div></div></div>`)[0];
+                popup_c8e562f1ef3139866091c8e016155de4.setContent(html_dc5b58293134f4afc08b3a74b9aef046);
+            
+        
+
+        marker_fbf2bb889d2c15540bd521a63a79600e.bindPopup(popup_c8e562f1ef3139866091c8e016155de4)
+        ;
+
+        
+    
+    
+            marker_fbf2bb889d2c15540bd521a63a79600e.bindTooltip(
+                `<div>
+                     [22] 陈记横县鱼生 · 罗田/燕川
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_19539b02b0fe0c0600ac03721ea4c3d9 = L.marker(
+                [22.759457812500003, 113.90251118749998],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_4abb267d97890f3a4d342a0175a6c3ec = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#f39c12;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e23\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_19539b02b0fe0c0600ac03721ea4c3d9.setIcon(div_icon_4abb267d97890f3a4d342a0175a6c3ec);
+        
+    
+        var popup_d3eb626ca298ccd823605d71cc9f3aa4 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_7871fcef58fcf4a8d3ae8b35c4e116f0 = $(`<div id="html_7871fcef58fcf4a8d3ae8b35c4e116f0" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #f39c12;padding-bottom:8px"><span style="color:#f39c12;font-size:16px">[23]</span> 微渔生·横县鱼生·顺德鱼生（光明店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">光明区凤凰街道松白路将围新村东边坑68-2号</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#f39c12;font-weight:600">🟡 即将营业</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">12:00-次日06:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥52 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.5 &nbsp;🏠 3.6 &nbsp;🙋 3.5</td></tr><tr><td style="padding:3px 0;color:#95a5a6">榜单</td><td style="padding:3px 0;color:#8e44ad;font-size:11px">神券最高膨至50</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省19元；半年售20</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.75945, 113.9025</div></div></div>`)[0];
+                popup_d3eb626ca298ccd823605d71cc9f3aa4.setContent(html_7871fcef58fcf4a8d3ae8b35c4e116f0);
+            
+        
+
+        marker_19539b02b0fe0c0600ac03721ea4c3d9.bindPopup(popup_d3eb626ca298ccd823605d71cc9f3aa4)
+        ;
+
+        
+    
+    
+            marker_19539b02b0fe0c0600ac03721ea4c3d9.bindTooltip(
+                `<div>
+                     [23] 微渔生·横县鱼生·顺德鱼生（光明店） · 光明新区
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_8cd3ee63f91cdaef36bd45d23d15d2ae = L.marker(
+                [22.7591208125, 113.90071018749998],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_10e5958a56c94872d87711cf15fe2dc8 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#f39c12;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e24\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_8cd3ee63f91cdaef36bd45d23d15d2ae.setIcon(div_icon_10e5958a56c94872d87711cf15fe2dc8);
+        
+    
+        var popup_09834b65bceda0eeddcae96a0a3db569 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_ecd17f93e80c4deae1d3d5e80e7bece0 = $(`<div id="html_ecd17f93e80c4deae1d3d5e80e7bece0" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #f39c12;padding-bottom:8px"><span style="color:#f39c12;font-size:16px">[24]</span> 何记横县鱼生馆（将围店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">光明区将围社区松白路4145号A201</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 休息中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">16:30-次日02:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥86 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">榜单</td><td style="padding:3px 0;color:#8e44ad;font-size:11px">神券立减6</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省13元</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.75912, 113.9007</div></div></div>`)[0];
+                popup_09834b65bceda0eeddcae96a0a3db569.setContent(html_ecd17f93e80c4deae1d3d5e80e7bece0);
+            
+        
+
+        marker_8cd3ee63f91cdaef36bd45d23d15d2ae.bindPopup(popup_09834b65bceda0eeddcae96a0a3db569)
+        ;
+
+        
+    
+    
+            marker_8cd3ee63f91cdaef36bd45d23d15d2ae.bindTooltip(
+                `<div>
+                     [24] 何记横县鱼生馆（将围店） · 光明新区
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_1f5c9e94a4c25e0012bbc03ee10d9493 = L.marker(
+                [22.73314113671875, 113.90058962890623],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_0248491f71c54e1af82aa3e532efed17 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#1abc9c;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e25\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_1f5c9e94a4c25e0012bbc03ee10d9493.setIcon(div_icon_0248491f71c54e1af82aa3e532efed17);
+        
+    
+        var popup_2c3c49c3b734b7b31e49e85d67f0bc76 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_bf56e605a3d51c8d376e243c5cc3ced0 = $(`<div id="html_bf56e605a3d51c8d376e243c5cc3ced0" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #1abc9c;padding-bottom:8px"><span style="color:#1abc9c;font-size:16px">[25]</span> 渔鲜生·横县鱼生·顺德鱼生（田寮店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">光明区玉塘街道田寮社区龙新路四巷1号1</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#27ae60;font-weight:600">🟢 营业中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">10:00-次日04:30</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥50 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.6 &nbsp;🏠 3.5 &nbsp;🙋 3.6</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省18元；半年售3</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.73314, 113.9005</div></div></div>`)[0];
+                popup_2c3c49c3b734b7b31e49e85d67f0bc76.setContent(html_bf56e605a3d51c8d376e243c5cc3ced0);
+            
+        
+
+        marker_1f5c9e94a4c25e0012bbc03ee10d9493.bindPopup(popup_2c3c49c3b734b7b31e49e85d67f0bc76)
+        ;
+
+        
+    
+    
+            marker_1f5c9e94a4c25e0012bbc03ee10d9493.bindTooltip(
+                `<div>
+                     [25] 渔鲜生·横县鱼生·顺德鱼生（田寮店） · 田寮/长圳
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ed917127a503985efb18f9fef48015ad = L.marker(
+                [22.7348448125, 113.89695718749999],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_04b17d75dc7fb5b02ec7561d4c5a1bc6 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#1abc9c;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e26\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_ed917127a503985efb18f9fef48015ad.setIcon(div_icon_04b17d75dc7fb5b02ec7561d4c5a1bc6);
+        
+    
+        var popup_5f85e5c37e6f3617c028889338d2aeed = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_e83c552db4fac0adc73d290fe306a1ae = $(`<div id="html_e83c552db4fac0adc73d290fe306a1ae" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #1abc9c;padding-bottom:8px"><span style="color:#1abc9c;font-size:16px">[26]</span> 横县鱼生（田寮田盛路店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">光明区玉塘街道田寮社区田盛路2栋113</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 休息中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">16:30-次日02:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥57 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.6 &nbsp;🏠 3.6 &nbsp;🙋 3.6</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">支付补贴2张10元无门槛券</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.73484, 113.8969</div></div></div>`)[0];
+                popup_5f85e5c37e6f3617c028889338d2aeed.setContent(html_e83c552db4fac0adc73d290fe306a1ae);
+            
+        
+
+        marker_ed917127a503985efb18f9fef48015ad.bindPopup(popup_5f85e5c37e6f3617c028889338d2aeed)
+        ;
+
+        
+    
+    
+            marker_ed917127a503985efb18f9fef48015ad.bindTooltip(
+                `<div>
+                     [26] 横县鱼生（田寮田盛路店） · 田寮/长圳
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_d6ef29e74904d38d23829f9672623f46 = L.marker(
+                [22.74655440429688, 113.81080753710935],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_6ac9f5ca83967ad746519aa8ca6b22da = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#3498db;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e27\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_d6ef29e74904d38d23829f9672623f46.setIcon(div_icon_6ac9f5ca83967ad746519aa8ca6b22da);
+        
+    
+        var popup_e0a6c439dff5598483a7d94420d7defa = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_59bab88c4d5dd3bc243243a14b3e07ce = $(`<div id="html_59bab88c4d5dd3bc243243a14b3e07ce" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #3498db;padding-bottom:8px"><span style="color:#3498db;font-size:16px">[27]</span> 南乡仔横县鱼生（沙井店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区岗胜路32号</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 暂无营业时间</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥90 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.6 &nbsp;🏠 3.6 &nbsp;🙋 3.6</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">支付补贴2张10元无门槛券</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.74655, 113.8108</div></div></div>`)[0];
+                popup_e0a6c439dff5598483a7d94420d7defa.setContent(html_59bab88c4d5dd3bc243243a14b3e07ce);
+            
+        
+
+        marker_d6ef29e74904d38d23829f9672623f46.bindPopup(popup_e0a6c439dff5598483a7d94420d7defa)
+        ;
+
+        
+    
+    
+            marker_d6ef29e74904d38d23829f9672623f46.bindTooltip(
+                `<div>
+                     [27] 南乡仔横县鱼生（沙井店） · 沙井商圈
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_722416fb83ae0961d3199dd7ef81f100 = L.marker(
+                [22.750642777343753, 113.84169032421875],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_ab2a1fe65d685c19b29e5aa956b579d7 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#e74c3c;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e28\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_722416fb83ae0961d3199dd7ef81f100.setIcon(div_icon_ab2a1fe65d685c19b29e5aa956b579d7);
+        
+    
+        var popup_9b5f1b2849ab4042a2a7f232007efd37 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_16e2209f1d0d7bf9ef5b26349fa97f37 = $(`<div id="html_16e2209f1d0d7bf9ef5b26349fa97f37" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #e74c3c;padding-bottom:8px"><span style="color:#e74c3c;font-size:16px">[28]</span> 辉业横县鱼生</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区潭头商住楼30号楼</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 休息中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">16:00-次日02:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省18元</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.75064, 113.8416</div></div></div>`)[0];
+                popup_9b5f1b2849ab4042a2a7f232007efd37.setContent(html_16e2209f1d0d7bf9ef5b26349fa97f37);
+            
+        
+
+        marker_722416fb83ae0961d3199dd7ef81f100.bindPopup(popup_9b5f1b2849ab4042a2a7f232007efd37)
+        ;
+
+        
+    
+    
+            marker_722416fb83ae0961d3199dd7ef81f100.bindTooltip(
+                `<div>
+                     [28] 辉业横县鱼生 · 松岗
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_9acaf72259080f88daa7a340d083e09b = L.marker(
+                [22.732283218750005, 113.83092046875],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_6f6ecd23fa50c9230b4c2f668e0bb2e8 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#3498db;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e29\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_9acaf72259080f88daa7a340d083e09b.setIcon(div_icon_6f6ecd23fa50c9230b4c2f668e0bb2e8);
+        
+    
+        var popup_aba4ca0a914a126ff330d04844eabe9f = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_60b91e715ca62a62d48ce64718197a70 = $(`<div id="html_60b91e715ca62a62d48ce64718197a70" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #3498db;padding-bottom:8px"><span style="color:#3498db;font-size:16px">[29]</span> 鱼生缘横县鱼生店</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区上星社区三村新区六巷6号101</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 休息中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">13:30-次日05:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省28元</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.73228, 113.8309</div></div></div>`)[0];
+                popup_aba4ca0a914a126ff330d04844eabe9f.setContent(html_60b91e715ca62a62d48ce64718197a70);
+            
+        
+
+        marker_9acaf72259080f88daa7a340d083e09b.bindPopup(popup_aba4ca0a914a126ff330d04844eabe9f)
+        ;
+
+        
+    
+    
+            marker_9acaf72259080f88daa7a340d083e09b.bindTooltip(
+                `<div>
+                     [29] 鱼生缘横县鱼生店 · 沙井商圈
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_20ebeae86e4a0ec8bb4f79c36f387a5d = L.marker(
+                [22.732615156250002, 113.81662940625],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_5315ff0290794366c7aa5e77688455b0 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#3498db;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e30\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_20ebeae86e4a0ec8bb4f79c36f387a5d.setIcon(div_icon_5315ff0290794366c7aa5e77688455b0);
+        
+    
+        var popup_cacc7cc29689f0e45009c5b0a09b6cec = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_1131d8b197a3e6824270e481eeccf77d = $(`<div id="html_1131d8b197a3e6824270e481eeccf77d" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #3498db;padding-bottom:8px"><span style="color:#3498db;font-size:16px">[30]</span> 渔之鲜·横县鱼生·顺德鱼生（沙井分店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区沙井街道壆岗三杯路10号</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 暂停营业</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥59 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.6 &nbsp;🏠 3.6 &nbsp;🙋 3.5</td></tr><tr><td style="padding:3px 0;color:#95a5a6">榜单</td><td style="padding:3px 0;color:#8e44ad;font-size:11px">神券最高膨至50</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省24.2元；半年售1</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.73261, 113.8166</div></div></div>`)[0];
+                popup_cacc7cc29689f0e45009c5b0a09b6cec.setContent(html_1131d8b197a3e6824270e481eeccf77d);
+            
+        
+
+        marker_20ebeae86e4a0ec8bb4f79c36f387a5d.bindPopup(popup_cacc7cc29689f0e45009c5b0a09b6cec)
+        ;
+
+        
+    
+    
+            marker_20ebeae86e4a0ec8bb4f79c36f387a5d.bindTooltip(
+                `<div>
+                     [30] 渔之鲜·横县鱼生·顺德鱼生（沙井分店） · 沙井商圈
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_f3a750c47a834985fc32ebb102a2cf6d = L.marker(
+                [22.733566804687502, 113.8296015859375],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_0cea99b1367cf417d017399fcc82f303 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#3498db;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e31\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_f3a750c47a834985fc32ebb102a2cf6d.setIcon(div_icon_0cea99b1367cf417d017399fcc82f303);
+        
+    
+        var popup_46c2452ce0d2f9a2db1b674c32179fbb = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_c7d7841816215da695653a74c678813a = $(`<div id="html_c7d7841816215da695653a74c678813a" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #3498db;padding-bottom:8px"><span style="color:#3498db;font-size:16px">[31]</span> 渔匠·横县鱼生·顺德鱼生</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区上星社区上星莲塘中区二巷9号102</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#27ae60;font-weight:600">🟢 营业中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">全天营业</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥66 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">榜单</td><td style="padding:3px 0;color:#8e44ad;font-size:11px">神券立减6</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省28元；半年售1</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.73356, 113.8296</div></div></div>`)[0];
+                popup_46c2452ce0d2f9a2db1b674c32179fbb.setContent(html_c7d7841816215da695653a74c678813a);
+            
+        
+
+        marker_f3a750c47a834985fc32ebb102a2cf6d.bindPopup(popup_46c2452ce0d2f9a2db1b674c32179fbb)
+        ;
+
+        
+    
+    
+            marker_f3a750c47a834985fc32ebb102a2cf6d.bindTooltip(
+                `<div>
+                     [31] 渔匠·横县鱼生·顺德鱼生 · 沙井商圈
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_a6805ebfe2dcef809132d1360aec5e73 = L.marker(
+                [22.742068570312505, 113.8343213515625],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_f5fe707626cf6ad36d4f3b9262179614 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#3498db;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e32\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_a6805ebfe2dcef809132d1360aec5e73.setIcon(div_icon_f5fe707626cf6ad36d4f3b9262179614);
+        
+    
+        var popup_394bcdda2aead76e14b0041708198f39 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_265887c0021506dca82faeda32c73dc9 = $(`<div id="html_265887c0021506dca82faeda32c73dc9" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #3498db;padding-bottom:8px"><span style="color:#3498db;font-size:16px">[32]</span> 桂来顺横县鱼生</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">宝安区新桥街道洋下大道与洋下三路交叉口西80米</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 休息中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">16:30-次日02:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥47 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省18元；营业状态待确认</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.74206, 113.8343</div></div></div>`)[0];
+                popup_394bcdda2aead76e14b0041708198f39.setContent(html_265887c0021506dca82faeda32c73dc9);
+            
+        
+
+        marker_a6805ebfe2dcef809132d1360aec5e73.bindPopup(popup_394bcdda2aead76e14b0041708198f39)
+        ;
+
+        
+    
+    
+            marker_a6805ebfe2dcef809132d1360aec5e73.bindTooltip(
+                `<div>
+                     [32] 桂来顺横县鱼生 · 沙井商圈
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_dda96831735ab24e9e903615e90f50a2 = L.marker(
+                [22.78436928125, 113.92414871875],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_d248df39d6698eb64e82c57649ae3633 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#e91e63;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e33\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_dda96831735ab24e9e903615e90f50a2.setIcon(div_icon_d248df39d6698eb64e82c57649ae3633);
+        
+    
+        var popup_231e42e27bb2e184ca969dfb4cc6b2c7 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_53e5273e81f4d99bb7531ea0ca54d911 = $(`<div id="html_53e5273e81f4d99bb7531ea0ca54d911" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #e91e63;padding-bottom:8px"><span style="color:#e91e63;font-size:16px">[33]</span> 明记横县鱼生大排档</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">光明区新湖街道荔都路550号104</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 休息中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">16:00-次日03:00</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥75 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.6 &nbsp;🏠 3.7 &nbsp;🙋 3.7</td></tr><tr><td style="padding:3px 0;color:#95a5a6">榜单</td><td style="padding:3px 0;color:#8e44ad;font-size:11px">神券最高膨至50</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">平台券共省15元；半年售29</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.78436, 113.9241</div></div></div>`)[0];
+                popup_231e42e27bb2e184ca969dfb4cc6b2c7.setContent(html_53e5273e81f4d99bb7531ea0ca54d911);
+            
+        
+
+        marker_dda96831735ab24e9e903615e90f50a2.bindPopup(popup_231e42e27bb2e184ca969dfb4cc6b2c7)
+        ;
+
+        
+    
+    
+            marker_dda96831735ab24e9e903615e90f50a2.bindTooltip(
+                `<div>
+                     [33] 明记横县鱼生大排档 · 圳美
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_5f533856227a203bba2c3f2a74192713 = L.marker(
+                [22.727207812499998, 113.89746718749998],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_5530e673a9acaaff98feb60e82a6dcbc = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#1abc9c;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e34\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_5f533856227a203bba2c3f2a74192713.setIcon(div_icon_5530e673a9acaaff98feb60e82a6dcbc);
+        
+    
+        var popup_3b273760ed998dc556af3eeb5fff06c5 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_3f1a1cf0b74c88b727897022e297f603 = $(`<div id="html_3f1a1cf0b74c88b727897022e297f603" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #1abc9c;padding-bottom:8px"><span style="color:#1abc9c;font-size:16px">[34]</span> 温记横县鱼生（田寮店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">光明区田寮社区第五工业区16栋金御湾A栋103</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 休息中</td></tr><tr><td style="padding:3px 0;color:#95a5a6">营业</td><td style="padding:3px 0;color:#555">17:00-次日02:30</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥48 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.5 &nbsp;🏠 3.5 &nbsp;🙋 3.5</td></tr><tr><td style="padding:3px 0;color:#95a5a6">榜单</td><td style="padding:3px 0;color:#8e44ad;font-size:11px">神券立减6</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">限时优惠/共省28元；营业状态待确认</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.72720, 113.8974</div></div></div>`)[0];
+                popup_3b273760ed998dc556af3eeb5fff06c5.setContent(html_3f1a1cf0b74c88b727897022e297f603);
+            
+        
+
+        marker_5f533856227a203bba2c3f2a74192713.bindPopup(popup_3b273760ed998dc556af3eeb5fff06c5)
+        ;
+
+        
+    
+    
+            marker_5f533856227a203bba2c3f2a74192713.bindTooltip(
+                `<div>
+                     [34] 温记横县鱼生（田寮店） · 田寮/长圳
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_bb3ec3da43815881aa22cea0822fb92e = L.marker(
+                [22.7197888125, 113.89722918749999],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_4ec3db2ec327df5a48610b6ee4689f67 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#1abc9c;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e35\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_bb3ec3da43815881aa22cea0822fb92e.setIcon(div_icon_4ec3db2ec327df5a48610b6ee4689f67);
+        
+    
+        var popup_73357cf6971be1f1909d1857abe3e444 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_9a131d6cd8c7e4f19832a2cf095571d1 = $(`<div id="html_9a131d6cd8c7e4f19832a2cf095571d1" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #1abc9c;padding-bottom:8px"><span style="color:#1abc9c;font-size:16px">[35]</span> 横县鱼生（玉泉东路店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">光明区玉泉东路69号</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 暂无营业时间</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥90 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">支付补贴2张10元无门槛券；营业状态待确认</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.71978, 113.8972</div></div></div>`)[0];
+                popup_73357cf6971be1f1909d1857abe3e444.setContent(html_9a131d6cd8c7e4f19832a2cf095571d1);
+            
+        
+
+        marker_bb3ec3da43815881aa22cea0822fb92e.bindPopup(popup_73357cf6971be1f1909d1857abe3e444)
+        ;
+
+        
+    
+    
+            marker_bb3ec3da43815881aa22cea0822fb92e.bindTooltip(
+                `<div>
+                     [35] 横县鱼生（玉泉东路店） · 田寮/长圳
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_38fe5cdf78b045c4098dd9624bc6f02f = L.marker(
+                [22.6488372265625, 113.91943883593751],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_b0bbe91f774f0aff8c95c43016314ecf = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#1abc9c;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e36\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_38fe5cdf78b045c4098dd9624bc6f02f.setIcon(div_icon_b0bbe91f774f0aff8c95c43016314ecf);
+        
+    
+        var popup_b429cca5c176a859f0d32ea4c1707921 = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_d4d60b0ef5ba3409a5a774ab02a35b47 = $(`<div id="html_d4d60b0ef5ba3409a5a774ab02a35b47" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #1abc9c;padding-bottom:8px"><span style="color:#1abc9c;font-size:16px">[36]</span> 正宗广西横县鱼生</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">光明区南海商业广场（玉律店）</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 暂无营业时间</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥80 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.7 &nbsp;🏠 3.7 &nbsp;🙋 3.8</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">支付补贴2张10元无门槛券；营业状态待确认</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.64883, 113.9194</div></div></div>`)[0];
+                popup_b429cca5c176a859f0d32ea4c1707921.setContent(html_d4d60b0ef5ba3409a5a774ab02a35b47);
+            
+        
+
+        marker_38fe5cdf78b045c4098dd9624bc6f02f.bindPopup(popup_b429cca5c176a859f0d32ea4c1707921)
+        ;
+
+        
+    
+    
+            marker_38fe5cdf78b045c4098dd9624bc6f02f.bindTooltip(
+                `<div>
+                     [36] 正宗广西横县鱼生 · 田寮/长圳
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_a4098d77f58decfe53931e6bf8cc0b82 = L.marker(
+                [22.7814151640625, 113.91611607031248],
+                {}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+        
+    
+            var div_icon_4a932208347b6ef8793b63c04832c8fc = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"width:32px;height:32px;border-radius:50% 50% 50% 0;background:#e91e63;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);transform:rotate(-45deg);display:flex;align-items:center;justify-content:center\"\u003e\u003cspan style=\"transform:rotate(45deg);color:white;font-size:12px;font-weight:bold\"\u003e37\u003c/span\u003e\u003c/div\u003e", "iconAnchor": [16, 32], "iconSize": [32, 32], "popupAnchor": [0, -34]});
+            marker_a4098d77f58decfe53931e6bf8cc0b82.setIcon(div_icon_4a932208347b6ef8793b63c04832c8fc);
+        
+    
+        var popup_3b39159f3b346b6bd2facccd40e0979c = L.popup({"maxWidth": 310});
+
+        
+            
+                var html_fcd4b830491e024bb47c0d7b721443cf = $(`<div id="html_fcd4b830491e024bb47c0d7b721443cf" style="width: 100.0%; height: 100.0%;"><div style="font-family:'PingFang SC','Microsoft YaHei',sans-serif;width:290px"><div style="font-size:14px;font-weight:bold;color:#2c3e50;margin-bottom:8px;border-bottom:3px solid #e91e63;padding-bottom:8px"><span style="color:#e91e63;font-size:16px">[37]</span> 横县鱼生（绘猫路店）</div><table style="font-size:12px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 0;color:#95a5a6;width:48px">📍</td><td style="padding:3px 0;color:#2c3e50">光明区绘猫路南边坑新村</td></tr><tr><td style="padding:3px 0;color:#95a5a6">状态</td><td style="padding:3px 0;color:#e74c3c;font-weight:600">🔴 暂无营业时间</td></tr><tr><td style="padding:3px 0;color:#95a5a6">人均</td><td style="padding:3px 0;color:#e67e22;font-weight:600">¥15 元</td></tr><tr><td style="padding:3px 0;color:#95a5a6">评分</td><td style="padding:3px 0">🍖 3.4 &nbsp;🏠 3.4 &nbsp;🙋 3.4</td></tr><tr><td style="padding:3px 0;color:#95a5a6">备注</td><td style="padding:3px 0;color:#7f8c8d;font-size:11px">支付补贴2张10元无门槛券</td></tr></table><div style="margin-top:6px;font-size:10px;color:#bdc3c7;text-align:right">WGS-84: 22.78141, 113.9161</div></div></div>`)[0];
+                popup_3b39159f3b346b6bd2facccd40e0979c.setContent(html_fcd4b830491e024bb47c0d7b721443cf);
+            
+        
+
+        marker_a4098d77f58decfe53931e6bf8cc0b82.bindPopup(popup_3b39159f3b346b6bd2facccd40e0979c)
+        ;
+
+        
+    
+    
+            marker_a4098d77f58decfe53931e6bf8cc0b82.bindTooltip(
+                `<div>
+                     [37] 横县鱼生（绘猫路店） · 圳美
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var layer_control_d7d0fbc0355696481b1ce68aef6cb29c_layers = {
+                base_layers : {
+                    "CartoDB \u4eae\u8272\u5e95\u56fe" : tile_layer_812854616da8fff45ed195a333b2f2e0,
+                    "CartoDB \u6697\u8272\u5e95\u56fe" : tile_layer_f434a7faf05eb6628a7d60579c90918b,
+                },
+                overlays :  {
+                },
+            };
+            let layer_control_d7d0fbc0355696481b1ce68aef6cb29c = L.control.layers(
+                layer_control_d7d0fbc0355696481b1ce68aef6cb29c_layers.base_layers,
+                layer_control_d7d0fbc0355696481b1ce68aef6cb29c_layers.overlays,
+                {"autoZIndex": true, "collapsed": false, "position": "topright"}
+            ).addTo(map_0e09c9994c81c394f1f80fdb6a462846);
+
+        
+</script>
+</html>

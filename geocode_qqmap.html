@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>腾讯地图地址解析</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+  h1 { color: #333; }
+  #log { background: #fff; border: 1px solid #ddd; padding: 15px; max-height: 400px; overflow-y: auto; font-size: 13px; }
+  .ok { color: green; }
+  .err { color: red; }
+  .info { color: #0066cc; }
+  .done { background: #e8f5e9; padding: 10px; border-radius: 4px; margin-top: 10px; }
+  input[type=text] { width: 400px; padding: 8px; }
+  button { padding: 8px 16px; cursor: pointer; }
+  #progress { margin: 10px 0; font-weight: bold; }
+</style>
+</head>
+<body>
+<h1>腾讯地图地址批量解析</h1>
+<p>正在加载地图 API...</p>
+<div id="progress"></div>
+<div id="log"></div>
+
+<script src="https://map.qq.com/api/js?v=2.exp&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-W6F7A"></script>
+<script>
+// 37个地址
+const addresses = [
+  "深圳市宝安区松岗街道沙浦社区沙二工业区6栋103 食为先(沙浦店)",
+  "深圳市宝安区松岗街道沙浦社区沙二工业园5栋1楼 食为先(沙二店)",
+  "深圳市宝安区松岗街道沙埔社区沙埔大道与繆鹿路交叉口南50米 食为先(沙埔店)",
+  "深圳市宝安区松岗街道沙溪社区沙溪路87号103铺 食为先(沙溪店)",
+  "深圳市宝安区松岗街道塘下涌社区三中路92号 食为先(塘下涌店)",
+  "深圳市宝安区松岗街道红星社区格布区七巷6号101 食为先(松岗红星店)",
+  "深圳市宝安区松岗街道洪桥头社区永和路22号一楼 食为先(洪桥头店)",
+  "深圳市宝安区沙井街道壆岗社区政石路56号101-103 食为先(壆岗店)",
+  "深圳市宝安区沙井街道沙井大街218号 食为先(沙井店)",
+  "深圳市宝安区沙井街道新桥社区新发路46号 食为先(新桥店)",
+  "深圳市宝安区沙井街道民主社区三间仔商业街51号 食为先(民主店)",
+  "深圳市宝安区沙井街道步涌社区步涌一路47号 食为先(步涌店)",
+  "深圳市宝安区沙井街道东塘社区东塘大道110号 食为先(沙井东塘店)",
+  "深圳市宝安区沙井街道蚝乡路 食为先(沙井蚝乡店)",
+  "深圳市光明区公明街道上村社区民生路169号 食为先(公明上村店)",
+  "深圳市光明区公明街道公明社区建设路46号 食为先(公明店)",
+  "深圳市光明区公明街道李松蓢社区第一工业区围栏前路1号 食为先(公明李松蓢店)",
+  "深圳市光明区公明街道西田社区第三工业区58栋 食为先(公明西田店)",
+  "深圳市光明区公明街道将石社区水库路与南庄路交叉口西150米 食为先(公明将石店)",
+  "深圳市光明区马田街道合水口社区振明路13号 食为先(光明合水口店)",
+  "深圳市光明区玉塘街道田寮村社区田寮路108号 食为先(田寮店)",
+  "深圳市光明区玉塘街道长圳社区长贵路与长祥路交叉口东100米 食为先(长圳店)",
+  "深圳市光明区玉塘街道玉塘社区玉律路69号 食为先(玉塘店)",
+  "深圳市光明区凤凰街道凤凰社区凤凰立交桥南100米 食为先(凤凰店)",
+  "深圳市宝安区福永街道白石厦社区石龙头新村一巷5号101 食为先(福永白石厦店)",
+  "深圳市宝安区福永街道福永社区福永大道与怀德南路交叉口北100米 食为先(福永店)",
+  "深圳市宝安区福永街道怀德社区翠岗公园旁 食为先(怀德店)",
+  "深圳市宝安区宝安大道与固戍一路交叉口西200米 食为先(固戍店)",
+  "深圳市宝安区西乡街道固戍社区固戍一路与宝安大道交叉口西200米 食为先(固戍店2)",
+  "深圳市光明区新湖街道楼村社区楼村加油站旁 食为先(楼村店)",
+  "深圳市光明区新湖街道圳美社区同富裕工业园5号 食为先(圳美店)",
+  "深圳市宝安区松岗街道燕川社区燕川文化广场旁 食为先(燕川店)",
+  "深圳市宝安区松岗街道罗田社区罗田市场旁 食为先(罗田店)",
+  "深圳市宝安区石岩街道官田社区官田市场旁 食为先(石岩店)",
+  "深圳市龙华区大浪街道同胜社区华旺路128号 食为先(大浪店)",
+  "深圳市龙华区龙华街道清湖社区和平路52号 食为先(龙华清湖店)",
+];
+
+const results = {};
+let idx = 0;
+
+function log(msg, cls='') {
+  const div = document.createElement('div');
+  div.className = cls;
+  div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+  document.getElementById('log').appendChild(div);
+  document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
+}
+
+function updateProgress() {
+  document.getElementById('progress').textContent = `进度: ${idx}/${addresses.length}`;
+}
+
+function geocodeNext() {
+  if (idx >= addresses.length) {
+    finish();
+    return;
+  }
+  updateProgress();
+  const addr = addresses[idx];
+  log(`正在解析 [${idx+1}/${addresses.length}]: ${addr}`, 'info');
+
+  // 使用腾讯地图 Geocoder
+  const geocoder = new qq.maps.Geocoder({
+    complete: function(result) {
+      const lat = result.detail.latLng.lat;
+      const lng = result.detail.latLng.lng;
+      results[addr] = { lat, lng };
+      log(`  ✓ 成功: (${lat}, ${lng})`, 'ok');
+      idx++;
+      setTimeout(geocodeNext, 300); // 间隔300ms，避免请求过快
+    },
+    error: function(result) {
+      log(`  ✗ 失败: ${JSON.stringify(result)}`, 'err');
+      results[addr] = null;
+      idx++;
+      setTimeout(geocodeNext, 300);
+    }
+  });
+
+  geocoder.getLocation(addr);
+}
+
+// 等待 API 加载后开始
+function waitForAPI() {
+  if (typeof qq !== 'undefined' && typeof qq.maps !== 'undefined') {
+    log('腾讯地图 API 加载完成，开始解析...', 'info');
+    setTimeout(geocodeNext, 500);
+  } else {
+    log('等待 API 加载...', '');
+    setTimeout(waitForAPI, 500);
+  }
+}
+
+function finish() {
+  updateProgress();
+  log('全部解析完成！', 'ok');
+
+  // 显示结果摘要
+  const successCount = Object.values(results).filter(r => r !== null).length;
+  const resultStr = JSON.stringify(results, null, 2);
+  console.log('=== GEOCODE RESULTS ===');
+  console.log(resultStr);
+  console.log('=== END RESULTS ===');
+
+  const doneDiv = document.createElement('div');
+  doneDiv.className = 'done';
+  doneDiv.innerHTML = `
+    <h3>✅ 解析完成！</h3>
+    <p>成功: <b>${successCount}/${addresses.length}</b></p>
+    <p>结果已打印到浏览器控制台 (F12)。</p>
+    <p>复制以下内容保存：</p>
+    <textarea style="width:100%;height:200px;font-size:11px;">${resultStr}</textarea>
+  `;
+  document.body.appendChild(doneDiv);
+
+  // 同时下载为文件
+  const blob = new Blob([resultStr], {type: 'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'geocode_results.json';
+  a.textContent = '📥 下载 JSON 结果';
+  a.style.display = 'block';
+  a.style.marginTop = '10px';
+  document.body.appendChild(a);
+}
+
+setTimeout(waitForAPI, 1000);
+</script>
+</body>
+</html>

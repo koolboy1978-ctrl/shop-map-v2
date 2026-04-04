@@ -1,0 +1,9 @@
+[     568ms] [WARNING] document.domain mutation is ignored because the surrounding agent cluster is origin-keyed. @ https://map.qq.com/:34
+[     660ms] [LOG] [Redirect]尝试切换内网版访问 @ https://map.qq.com/:427
+[     809ms] [LOG] geolocation @ https://5gimg.map.qq.com/mappc/public_static/5.2.148/src/Main.js?v=5.2.148:570
+[     813ms] [WARNING] document.domain mutation is ignored because the surrounding agent cluster is origin-keyed. @ https://map.qq.com/history.html:6
+[    1116ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://isdspeed.qq.com/cgi-bin/r.cgi?flag1=7804&flag2=8&flag3=2&1=86&2=232&3=513:0
+[    1116ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://isdspeed.qq.com/cgi-bin/r.cgi?flag1=7804&flag2=8&flag3=1&5=2&6=3&7=40&8=40&9=70&10=70&11=119&12=131&13=121&14=647&15=647&16=791&17=1062&18=1062:0
+[    8582ms] [LOG] geolocation info {module: geolocation, type: h5, adcode: 440306, nation: 中国, province: 广东省} @ https://5gimg.map.qq.com/mappc/public_static/5.2.148/src/Main.js?v=5.2.148:569
+[   75700ms] [LOG] [Redirect]redirect woa duration:  75039 {} @ https://map.qq.com/:432
+[   75700ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://pc.map.woa.com/test:0

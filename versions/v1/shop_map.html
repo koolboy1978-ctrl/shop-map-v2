@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>食为先·竞品门店分布地图</title>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"/>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+        #map { width: 100%; height: 100%; }
+
+        /* 自定义标题栏 */
+        .map-title {
+            position: fixed;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 10px 30px;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            white-space: nowrap;
+            border: 1px solid rgba(255,255,255,0.15);
+            letter-spacing: 0.5px;
+        }
+        .map-title span { color: #ffd700; }
+
+        /* 区域图例 */
+        .legend {
+            position: fixed;
+            bottom: 28px;
+            right: 18px;
+            background: rgba(255,255,255,0.97);
+            padding: 14px 18px;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+            font-size: 12px;
+            z-index: 1000;
+            line-height: 2.2;
+            min-width: 150px;
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+        .legend-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #eee;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .legend-item:hover { background: #f5f5f5; }
+        .legend-item.inactive { opacity: 0.35; }
+        .legend-dot {
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* 统计面板 */
+        .stats-panel {
+            position: fixed;
+            top: 70px;
+            right: 18px;
+            background: rgba(255,255,255,0.97);
+            padding: 12px 16px;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+            font-size: 12px;
+            z-index: 1000;
+            line-height: 1.9;
+            min-width: 140px;
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+        .stats-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 4px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #eee;
+        }
+        .stat-open { color: #27ae60; }
+        .stat-soon { color: #f39c12; }
+        .stat-other { color: #e74c3c; }
+
+        /* 搜索框 */
+        .search-box {
+            position: fixed;
+            top: 14px;
+            left: 18px;
+            background: rgba(255,255,255,0.97);
+            padding: 8px 14px;
+            border-radius: 22px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+        .search-box:focus-within {
+            box-shadow: 0 4px 20px rgba(52,152,219,0.3);
+            border-color: #3498db;
+        }
+        .search-box input {
+            border: none;
+            outline: none;
+            font-size: 13px;
+            font-family: inherit;
+            width: 120px;
+            background: transparent;
+        }
+        .search-box button {
+            background: #3498db;
+            border: none;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.2s;
+        }
+        .search-box button:hover { background: #2980b9; }
+
+        /* Marker 弹窗样式 */
+        .leaflet-popup-content-wrapper {
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        .popup-content {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            min-width: 200px;
+        }
+        .popup-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        .popup-id {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .popup-name {
+            font-size: 13px;
+            font-weight: bold;
+            color: #2c3e50;
+            line-height: 1.3;
+        }
+        .popup-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            margin: 4px 0;
+            font-size: 12px;
+            color: #555;
+        }
+        .popup-label { color: #999; flex-shrink: 0; width: 50px; }
+        .popup-value { color: #333; }
+        .popup-status-open { color: #27ae60; font-weight: bold; }
+        .popup-status-soon { color: #f39c12; font-weight: bold; }
+        .popup-status-other { color: #e74c3c; font-weight: bold; }
+        .popup-region {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        /* 加载提示 */
+        .loading-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            z-index: 2000;
+            transition: opacity 0.5s;
+        }
+        .loading-hint.hidden { opacity: 0; pointer-events: none; }
+
+        /* 图层切换 */
+        .layer-toggle {
+            position: fixed;
+            bottom: 28px;
+            left: 18px;
+            background: rgba(255,255,255,0.97);
+            padding: 10px 14px;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+            z-index: 1000;
+            font-size: 12px;
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+        .layer-toggle-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #eee;
+        }
+        .layer-btn {
+            display: block;
+            width: 100%;
+            padding: 4px 0;
+            border: none;
+            background: none;
+            text-align: left;
+            cursor: pointer;
+            font-size: 12px;
+            font-family: inherit;
+            color: #555;
+            border-radius: 4px;
+            padding: 3px 6px;
+            transition: all 0.2s;
+        }
+        .layer-btn:hover { background: #f5f5f5; }
+        .layer-btn.active { color: #3498db; font-weight: bold; background: #ebf5fb; }
+
+        /* 品牌筛选 */
+        .brand-filter {
+            position: fixed;
+            top: 70px;
+            left: 18px;
+            background: rgba(255,255,255,0.97);
+            padding: 10px 14px;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+            z-index: 1000;
+            font-size: 12px;
+            border: 1px solid rgba(0,0,0,0.08);
+            max-height: 300px;
+            overflow-y: auto;
+            width: 160px;
+        }
+        .brand-filter-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #eee;
+        }
+        .brand-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 4px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .brand-item:hover { background: #f5f5f5; }
+        .brand-item.inactive { opacity: 0.35; }
+        .brand-checkbox {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            border: 2px solid #ccc;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            transition: all 0.2s;
+        }
+        .brand-item.active .brand-checkbox {
+            background: #3498db;
+            border-color: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 标题 -->
+    <div class="map-title">🗺️ 食为先·竞品门店分布地图 <span>(37/37 家)</span></div>
+
+    <!-- 搜索框 -->
+    <div class="search-box">
+        <span>🔍</span>
+        <input type="text" id="searchInput" placeholder="搜索门店名称…" onkeydown="if(event.key==='Enter')searchStore()">
+        <button onclick="searchStore()">搜索</button>
+    </div>
+
+    <!-- 统计面板 -->
+    <div class="stats-panel">
+        <div class="stats-title">📊 门店统计</div>
+        <div class="stat-open">🟢 营业中: <b>11</b></div>
+        <div class="stat-soon">🟡 即将营业: <b>4</b></div>
+        <div class="stat-other">🔴 其他: <b>22</b></div>
+    </div>
+
+    <!-- 区域图例 -->
+    <div class="legend" id="legend"></div>
+
+    <!-- 品牌筛选 -->
+    <div class="brand-filter" id="brandFilter"></div>
+
+    <!-- 图层切换 -->
+    <div class="layer-toggle">
+        <div class="layer-toggle-title">🗺️ 底图切换</div>
+        <button class="layer-btn active" onclick="switchLayer('vec', this)">🗺️ 矢量地图</button>
+        <button class="layer-btn" onclick="switchLayer('sat', this)">🛰️ 卫星影像</button>
+        <button class="layer-btn" onclick="switchLayer('ter', this)">🏔️ 地形图</button>
+    </div>
+
+    <!-- 加载提示 -->
+    <div class="loading-hint" id="loadingHint">地图加载中，请稍候…</div>
+
+    <!-- 地图容器 -->
+    <div id="map"></div>
+
+    <script>
+    // ============================================================
+    // 门店数据
+    // ============================================================
+    const stores = [
+        {id:1,name:"渔虞·顺德鱼生·横县鱼生（福永店）",addr:"宝安区福永街道白石厦社区石龙头新村一巷5号101",region:"福永",status:"营业中",lat:22.674545,lng:113.82082,district:"宝安区"},
+        {id:2,name:"鱼公元·鱼生（宝安福永店）",addr:"宝安区福永街道裕华园东9栋",region:"福永",status:"营业中",lat:22.67467,lng:113.826834,district:"宝安区"},
+        {id:3,name:"鱼公元·鱼生（光明店）",addr:"光明区横岭新村西区二巷3号102",region:"公明商圈",status:"即将营业",lat:22.780704,lng:113.880943,district:"光明区"},
+        {id:4,name:"鱼公元·鱼生（宝安塘尾店）",addr:"宝安区福海街道塘尾社区塘尾13区五巷11号",region:"宝安",status:"即将营业",lat:22.702731,lng:113.806599,district:"宝安区"},
+        {id:5,name:"鱼公元·鱼生（宝安沙井店）",addr:"宝安区沙井街道后亭社区四海云创大厦2栋107号",region:"宝安",status:"即将营业",lat:22.756559,lng:113.82496,district:"宝安区"},
+        {id:6,name:"满塘彩·大盘鱼·顺德菜（宝安福永店）",addr:"宝安区凤塘大道50B-3-4号一楼（广生医院旁）",region:"福永",status:"营业中",lat:22.697707,lng:113.827082,district:"宝安区"},
+        {id:7,name:"壹号顺德菜·粤菜（松岗店）",addr:"宝安区立业路27号127-131号",region:"松岗",status:"营业中",lat:22.764698,lng:113.853007,district:"宝安区"},
+        {id:8,name:"横县鱼生（公明总店）",addr:"光明区长春北路181号",region:"公明商圈",status:"休息中",lat:22.791437,lng:113.897395,district:"光明区"},
+        {id:9,name:"鱼公元·鱼生（沙田坑店）",addr:"光明区凤凰街道塘尾路沙田坑北三巷17-1",region:"光明新区",status:"营业中",lat:22.750989,lng:113.902712,district:"光明区"},
+        {id:10,name:"渔笼园·横县鱼生·顺德鱼生（光明店）",addr:"光明区凤凰街道东方路将围新村",region:"光明新区",status:"营业中",lat:22.75645,lng:113.907394,district:"光明区"},
+        {id:11,name:"渔虞·顺德鱼生·横县鱼生（松岗店）",addr:"宝安区松岗街道蚝涌新区133号102铺",region:"松岗",status:"营业中",lat:22.762858,lng:113.834727,district:"宝安区"},
+        {id:12,name:"渔虞·顺德鱼生·横县鱼生（光明店）",addr:"光明区凤凰街道塘尾社区沙田坑北三巷17号17-2号",region:"光明新区",status:"营业中",lat:22.750989,lng:113.902712,district:"光明区"},
+        {id:13,name:"横县鱼生（楼岗店）",addr:"宝安区立业路与楼岗大道交叉口东北60米",region:"松岗",status:"暂无营业时间",lat:22.765339,lng:113.853717,district:"宝安区"},
+        {id:14,name:"横县鱼生广鱼庄（万丰店）",addr:"宝安区万丰社区万安路178号",region:"沙井商圈",status:"休息中",lat:22.714839,lng:113.818733,district:"宝安区"},
+        {id:15,name:"横县鱼生（天源隆广场店）",addr:"宝安区松岗街道沙江路136号B1（天源隆广场内）",region:"松岗",status:"休息中",lat:22.774493,lng:113.834551,district:"宝安区"},
+        {id:16,name:"茉莉·横县鱼生·粤菜（松岗店）",addr:"宝安区松瑞路17号",region:"松岗",status:"休息中",lat:22.760637,lng:113.83748,district:"宝安区"},
+        {id:17,name:"横县鱼生（公明马园路店）",addr:"光明区马田街道马园路48号附近",region:"公明商圈",status:"暂无营业时间",lat:22.773108,lng:113.877165,district:"光明区"},
+        {id:18,name:"桂和横县鱼生（松岗店）",addr:"宝安区红腾三路与蚝涌一交叉口西80米",region:"松岗",status:"休息中",lat:22.761236,lng:113.836283,district:"宝安区"},
+        {id:19,name:"横县鱼生（美食汇店）",addr:"光明区多宝路23号",region:"公明商圈",status:"休息中",lat:22.784896,lng:113.890265,district:"光明区"},
+        {id:20,name:"横县鱼生馆",addr:"光明区马田街道合力一路与振明路交叉口正北方向160米左右",region:"公明商圈",status:"休息中",lat:22.784274,lng:113.878567,district:"光明区"},
+        {id:21,name:"茉莉横县鱼生（上南店）",addr:"宝安区上寮工业区8号105",region:"沙井商圈",status:"营业中",lat:22.72074,lng:113.839484,district:"宝安区"},
+        {id:22,name:"陈记横县鱼生",addr:"宝安区红湖路6-2",region:"罗田/燕川",status:"休息中",lat:22.806104,lng:113.864701,district:"宝安区"},
+        {id:23,name:"微渔生·横县鱼生·顺德鱼生（光明店）",addr:"光明区凤凰街道松白路将围新村东边坑68-2号",region:"光明新区",status:"即将营业",lat:22.75645,lng:113.907394,district:"光明区"},
+        {id:24,name:"何记横县鱼生馆（将围店）",addr:"光明区将围社区松白路4145号A201",region:"光明新区",status:"休息中",lat:22.756113,lng:113.905593,district:"光明区"},
+        {id:25,name:"渔鲜生·横县鱼生·顺德鱼生（田寮店）",addr:"光明区玉塘街道田寮社区龙新路四巷1号1",region:"田寮/长圳",status:"营业中",lat:22.730126,lng:113.90547,district:"光明区"},
+        {id:26,name:"横县鱼生（田寮田盛路店）",addr:"光明区玉塘街道田寮社区田盛路2栋113",region:"田寮/长圳",status:"休息中",lat:22.731837,lng:113.90184,district:"光明区"},
+        {id:27,name:"南乡仔横县鱼生（沙井店）",addr:"宝安区岗胜路32号",region:"沙井商圈",status:"暂无营业时间",lat:22.743665,lng:113.815882,district:"宝安区"},
+        {id:28,name:"辉业横县鱼生",addr:"宝安区潭头商住楼30号楼",region:"松岗",status:"休息中",lat:22.747696,lng:113.846683,district:"宝安区"},
+        {id:29,name:"鱼生缘横县鱼生店",addr:"宝安区上星社区三村新区六巷6号101",region:"沙井商圈",status:"休息中",lat:22.729334,lng:113.83594,district:"宝安区"},
+        {id:30,name:"渔之鲜·横县鱼生·顺德鱼生（沙井分店）",addr:"宝安区沙井街道壆岗三杯路10号",region:"沙井商圈",status:"暂停营业",lat:22.729705,lng:113.821688,district:"宝安区"},
+        {id:31,name:"渔匠·横县鱼生·顺德鱼生",addr:"宝安区上星社区上星莲塘中区二巷9号102",region:"沙井商圈",status:"营业中",lat:22.730642,lng:113.834626,district:"宝安区"},
+        {id:32,name:"桂来顺横县鱼生",addr:"宝安区新桥街道洋下大道与洋下三路交叉口西80米",region:"沙井商圈",status:"休息中",lat:22.739134,lng:113.839336,district:"宝安区"},
+        {id:33,name:"明记横县鱼生大排档",addr:"光明区新湖街道荔都路550号104",region:"圳美",status:"休息中",lat:22.781381,lng:113.929012,district:"光明区"},
+        {id:34,name:"温记横县鱼生（田寮店）",addr:"光明区田寮社区第五工业区16栋金御湾A栋103",region:"田寮/长圳",status:"休息中",lat:22.7242,lng:113.90235,district:"光明区"},
+        {id:35,name:"横县鱼生（玉泉东路店）",addr:"光明区玉泉东路69号",region:"田寮/长圳",status:"暂无营业时间",lat:22.716781,lng:113.902112,district:"光明区"},
+        {id:36,name:"正宗广西横县鱼生",addr:"光明区南海商业广场（玉律店）",region:"田寮/长圳",status:"暂无营业时间",lat:22.645805,lng:113.924307,district:"宝安区"},
+        {id:37,name:"横县鱼生（绘猫路店）",addr:"光明区绘猫路南边坑新村",region:"圳美",status:"暂无营业时间",lat:22.778422,lng:113.920994,district:"光明区"}
+    ];
+
+    // 区域颜色
+    const regionColors = {
+        "松岗":"#e74c3c","沙井商圈":"#3498db","公明商圈":"#9b59b6",
+        "光明新区":"#f39c12","田寮/长圳":"#1abc9c","福永":"#e67e22",
+        "宝安":"#2ecc71","圳美":"#e91e63","罗田/燕川":"#795548"
+    };
+
+    // 状态样式
+    const statusClass = {
+        "营业中":"popup-status-open","即将营业":"popup-status-soon"
+    };
+
+    // ============================================================
+    // 地图初始化
+    // ============================================================
+    // 高德矢量底图（国内可访问）
+    const tileLayers = {
+        vec: L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
+            subdomains: "1234",
+            attribution: "© 高德地图",
+            maxZoom: 18
+        }),
+        sat: L.tileLayer('https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}', {
+            subdomains: "1234",
+            attribution: "© 高德地图",
+            maxZoom: 18
+        }),
+        ter: L.tileLayer('https://webst0{s}.is.autonavi.com/appmaptile?style=8&x={x}&y={y}&z={z}', {
+            subdomains: "1234",
+            attribution: "© 高德地图",
+            maxZoom: 18
+        })
+    };
+
+    const map = L.map('map', {
+        center: [22.747, 113.87],
+        zoom: 12,
+        zoomControl: true,
+        layers: [tileLayers.vec]
+    });
+
+    // 默认加载矢量图层
+    tileLayers.vec.addTo(map);
+
+    // 隐藏加载提示
+    setTimeout(() => {
+        const hint = document.getElementById('loadingHint');
+        if (hint) hint.classList.add('hidden');
+    }, 2000);
+
+    // ============================================================
+    // 区域圈（虚线圆）
+    // ============================================================
+    const regionCenters = {
+        "松岗":[22.764, 113.842],
+        "沙井商圈":[22.730, 113.830],
+        "公明商圈":[22.783, 113.885],
+        "光明新区":[22.753, 113.905],
+        "田寮/长圳":[22.725, 113.905],
+        "福永":[22.685, 113.820],
+        "宝安":[22.730, 113.810],
+        "圳美":[22.780, 113.925],
+        "罗田/燕川":[22.806, 113.865]
+    };
+
+    Object.entries(regionCenters).forEach(([region, center]) => {
+        const color = regionColors[region];
+        L.circle(center, {
+            radius: 2500,
+            color: color,
+            fillColor: color,
+            fillOpacity: 0.06,
+            weight: 2,
+            dashArray: '8,6',
+            opacity: 0.6
+        }).addTo(map).bindPopup(`<b>${region}</b><br>${stores.filter(s=>s.region===region).length} 家门店`);
+    });
+
+    // ============================================================
+    // 渲染 Marker
+    // ============================================================
+    const markers = {};
+    const markerGroup = L.layerGroup().addTo(map);
+
+    // 品牌提取
+    const brandMap = {};
+    stores.forEach(s => {
+        const m = s.name.match(/^([^·]+)/);
+        const brand = m ? m[1] : s.name.substring(0,4);
+        if (!brandMap[brand]) brandMap[brand] = 0;
+        brandMap[brand]++;
+    });
+
+    let activeBrands = new Set(Object.keys(brandMap));
+    let activeRegions = new Set(Object.keys(regionColors));
+
+    function getStatusClass(status) {
+        if (status === "营业中") return "popup-status-open";
+        if (status === "即将营业") return "popup-status-soon";
+        return "popup-status-other";
+    }
+
+    function makePopupContent(store) {
+        const sc = getStatusClass(store.status);
+        const regionColor = regionColors[store.region] || "#666";
+        return `
+        <div class="popup-content">
+            <div class="popup-header">
+                <div class="popup-id">${store.id}</div>
+                <div class="popup-name">${store.name}</div>
+            </div>
+            <div class="popup-row">
+                <span class="popup-label">地　址</span>
+                <span class="popup-value">${store.addr}</span>
+            </div>
+            <div class="popup-row">
+                <span class="popup-label">区　域</span>
+                <span class="popup-value"><span class="popup-region" style="background:${regionColor}22;color:${regionColor};border:1px solid ${regionColor}55">${store.region}</span></span>
+            </div>
+            <div class="popup-row">
+                <span class="popup-label">状　态</span>
+                <span class="popup-value ${sc}">${store.status}</span>
+            </div>
+            <div class="popup-row">
+                <span class="popup-label">行政区</span>
+                <span class="popup-value">${store.district}</span>
+            </div>
+        </div>`;
+    }
+
+    function renderMarkers() {
+        markerGroup.clearLayers();
+        stores.forEach(store => {
+            // 品牌匹配
+            const m = store.name.match(/^([^·]+)/);
+            const brand = m ? m[1] : store.name.substring(0,4);
+            const regionOk = activeRegions.has(store.region);
+            const brandOk = activeBrands.has(brand);
+            if (!regionOk || !brandOk) return;
+
+            const color = regionColors[store.region] || "#666";
+            const sc = getStatusClass(store.status);
+
+            // 营业状态图标
+            let iconHtml = `<div style="width:36px;height:36px;border-radius:50%;background:${color};border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:bold;color:white;font-family:'PingFang SC','Microsoft YaHei',sans-serif;cursor:pointer">${store.id}</div>`;
+
+            const icon = L.divIcon({
+                html: iconHtml,
+                className: '',
+                iconSize: [36, 36],
+                iconAnchor: [18, 18]
+            });
+
+            const marker = L.marker([store.lat, store.lng], { icon: icon })
+                .bindPopup(makePopupContent(store), { maxWidth: 280 })
+                .addTo(markerGroup);
+
+            markers[store.id] = marker;
+        });
+    }
+
+    renderMarkers();
+
+    // ============================================================
+    // 区域图例
+    // ============================================================
+    const legendEl = document.getElementById('legend');
+    let legendHTML = '<div class="legend-title">📍 区域图例（点击筛选）</div>';
+    Object.entries(regionColors).forEach(([region, color]) => {
+        const count = stores.filter(s => s.region === region).length;
+        legendHTML += `<div class="legend-item" id="legend-${region}" onclick="toggleRegion('${region}')">
+            <span class="legend-dot" style="background:${color}"></span>
+            ${region} (${count})
+        </div>`;
+    });
+    legendEl.innerHTML = legendHTML;
+
+    function toggleRegion(region) {
+        if (activeRegions.has(region)) {
+            activeRegions.delete(region);
+            document.getElementById('legend-' + region).classList.add('inactive');
+        } else {
+            activeRegions.add(region);
+            document.getElementById('legend-' + region).classList.remove('inactive');
+        }
+        renderMarkers();
+    }
+
+    // ============================================================
+    // 品牌筛选
+    // ============================================================
+    const brandFilterEl = document.getElementById('brandFilter');
+    let brandHTML = '<div class="brand-filter-title">🏪 品牌筛选</div>';
+    Object.entries(brandMap).sort((a,b) => b[1]-a[1]).forEach(([brand, count]) => {
+        brandHTML += `<div class="brand-item active" id="brand-${brand}" onclick="toggleBrand('${brand.replace(/'/g,"\\'")}')">
+            <div class="brand-checkbox">✓</div>
+            ${brand} (${count})
+        </div>`;
+    });
+    brandFilterEl.innerHTML = brandHTML;
+
+    function toggleBrand(brand) {
+        const el = document.getElementById('brand-' + brand);
+        if (activeBrands.has(brand)) {
+            activeBrands.delete(brand);
+            el.classList.remove('active');
+        } else {
+            activeBrands.add(brand);
+            el.classList.add('active');
+        }
+        renderMarkers();
+    }
+
+    // ============================================================
+    // 搜索功能
+    // ============================================================
+    function searchStore() {
+        const q = document.getElementById('searchInput').value.trim();
+        if (!q) return;
+
+        // 关闭所有弹窗
+        markerGroup.eachLayer(m => m.closePopup());
+
+        // 精确搜索
+        const exact = stores.filter(s => s.name.includes(q));
+        if (exact.length > 0) {
+            const s = exact[0];
+            map.setView([s.lat, s.lng], 15);
+            markers[s.id].openPopup();
+            return;
+        }
+
+        // 模糊搜索
+        const fuzzy = stores.filter(s => s.name.includes(q) || s.addr.includes(q) || s.region.includes(q));
+        if (fuzzy.length > 0) {
+            const bounds = L.latLngBounds(fuzzy.map(s => [s.lat, s.lng]));
+            map.fitBounds(bounds, { padding: [50, 50] });
+            fuzzy.forEach(s => markers[s.id].openPopup());
+        } else {
+            alert(`未找到"${q}"相关门店`);
+        }
+    }
+
+    // ============================================================
+    // 底图切换
+    // ============================================================
+    function switchLayer(type, btn) {
+        map.removeLayer(tileLayers.vec);
+        map.removeLayer(tileLayers.sat);
+        map.removeLayer(tileLayers.ter);
+        tileLayers[type].addTo(map);
+        document.querySelectorAll('.layer-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    // ============================================================
+    // 右下角说明
+    // ============================================================
+    L.control.attribution({prefix: '© 高德地图 | 食为先竞品分析'}).addTo(map);
+    </script>
+</body>
+</html>
