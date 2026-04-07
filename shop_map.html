@@ -37,21 +37,38 @@
             bottom: 28px;
             right: 18px;
             background: rgba(255,255,255,0.97);
-            padding: 14px 18px;
+            padding: 0;
             border-radius: 12px;
             box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-            font-size: 12px;
+            font-size: 9px;
             z-index: 1000;
-            line-height: 2.2;
-            min-width: 150px;
+            line-height: 1.8;
+            min-width: 120px;
             border: 1px solid rgba(0,0,0,0.08);
+            overflow: hidden;
         }
+        .legend.collapsed .legend-content { display: none; }
+        .legend-content { 
+            padding: 0 10px 8px; 
+            max-height: 280px;
+            overflow-y: auto;
+        }
+        .legend-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 10px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.97);
+        }
+        .legend-header:hover { background: #f8f8f8; }
+        .legend.collapsed .legend-header .panel-toggle { transform: rotate(-90deg); }
         .legend-title {
-            font-size: 13px;
+            font-size: 10px;
             font-weight: bold;
             color: #2c3e50;
-            margin-bottom: 8px;
-            padding-bottom: 6px;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
             border-bottom: 1px solid #eee;
             display: flex;
             align-items: center;
@@ -59,22 +76,23 @@
         }
         .legend-controls {
             display: flex;
-            gap: 6px;
-            margin-bottom: 8px;
-            padding-bottom: 8px;
+            gap: 4px;
+            margin-bottom: 6px;
+            padding-bottom: 6px;
             border-bottom: 1px solid #eee;
         }
         .legend-control-btn {
             flex: 1;
-            padding: 4px 8px;
+            padding: 3px 4px;
             border: 1px solid #3498db;
             border-radius: 4px;
             background: white;
             color: #3498db;
-            font-size: 11px;
+            font-size: 8px;
             cursor: pointer;
             font-family: inherit;
             transition: all 0.2s;
+            white-space: nowrap;
         }
         .legend-control-btn:hover {
             background: #3498db;
@@ -91,6 +109,87 @@
         }
         .legend-item:hover { background: #f5f5f5; }
         .legend-item.inactive { opacity: 0.35; }
+        
+        /* 三级联动样式 */
+        .legend-city { 
+            font-weight: bold; 
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 0;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 4px;
+        }
+        .legend-city:hover { background: #f0f0f0; }
+        .legend-city-expand { 
+            font-size: 10px; 
+            color: #666;
+            transition: transform 0.2s;
+            width: 12px;
+            text-align: center;
+        }
+        .legend-city.expanded .legend-city-expand { transform: rotate(90deg); }
+        .legend-district { 
+            padding-left: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .legend-district:hover { background: #f5f5f5; }
+        .legend-district-expand {
+            font-size: 10px;
+            color: #888;
+            width: 12px;
+            text-align: center;
+        }
+        .legend-district.expanded .legend-district-expand { transform: rotate(90deg); }
+        .legend-street { 
+            padding-left: 28px; 
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .legend-checkbox {
+            width: 12px;
+            height: 12px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            color: white;
+            background: white;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .legend-checkbox.checked {
+            background: #3498db;
+            border-color: #3498db;
+        }
+        .legend-checkbox.indeterminate {
+            background: #3498db;
+            border-color: #3498db;
+            color: white;
+        }
+        .legend-city-count, .legend-district-count {
+            font-size: 8px;
+            color: #888;
+            margin-left: auto;
+        }
+        .legend-city.empty { opacity: 0.4; }
+        .legend-city.empty .legend-city-expand { display: none; }
+        .legend-street.empty { opacity: 0.3; }
+        .legend-street-check { 
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
         .legend-dot {
             width: 13px;
             height: 13px;
@@ -103,20 +202,20 @@
         /* 统计面板 */
         .stats-panel {
             position: fixed;
-            top: 70px;
+            top: 60px;
             right: 18px;
             background: rgba(255,255,255,0.97);
-            padding: 12px 16px;
+            padding: 6px 10px;
             border-radius: 12px;
             box-shadow: 0 4px 14px rgba(0,0,0,0.12);
-            font-size: 12px;
+            font-size: 9px;
             z-index: 1000;
-            line-height: 1.9;
-            min-width: 140px;
+            line-height: 1.5;
+            min-width: 90px;
             border: 1px solid rgba(0,0,0,0.08);
         }
         .stats-title {
-            font-size: 12px;
+            font-size: 10px;
             font-weight: bold;
             color: #2c3e50;
             margin-bottom: 4px;
@@ -304,7 +403,7 @@
         .panel-title {
             font-weight: bold;
             color: #2c3e50;
-            font-size: 13px;
+            font-size: 10px;
         }
         .panel-toggle {
             font-size: 12px;
@@ -317,44 +416,45 @@
 
         /* 门店筛选 */
         .store-filter {
-            padding: 10px 14px;
-            font-size: 12px;
-            max-height: 350px;
+            padding: 6px 10px;
+            font-size: 9px;
+            max-height: 250px;
             overflow: hidden;
-            width: 220px;
+            width: 180px;
         }
         .store-filter-controls {
             display: flex;
-            gap: 6px;
-            margin-bottom: 8px;
-            padding-bottom: 6px;
+            gap: 4px;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
             border-bottom: 1px solid #eee;
         }
         .store-filter-btn {
             flex: 1;
-            padding: 4px 0;
+            padding: 3px 2px;
             border: 1px solid #3498db;
             border-radius: 4px;
             background: white;
             color: #3498db;
-            font-size: 11px;
+            font-size: 8px;
             cursor: pointer;
             font-family: inherit;
             transition: all 0.2s;
+            white-space: nowrap;
         }
         .store-filter-btn:hover {
             background: #3498db;
             color: white;
         }
         .store-filter-list {
-            max-height: 280px;
+            max-height: 200px;
             overflow-y: auto;
         }
         .store-item {
             display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 3px 4px;
+            gap: 4px;
+            padding: 2px 3px;
             border-radius: 4px;
             cursor: pointer;
             transition: background 0.2s;
@@ -362,8 +462,8 @@
         .store-item:hover { background: #f5f5f5; }
         .store-item.inactive { opacity: 0.35; }
         .store-checkbox {
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             border-radius: 3px;
             border: 2px solid #ccc;
             flex-shrink: 0;
@@ -393,37 +493,38 @@
 
         /* 图层切换 */
         .layer-toggle {
-            padding: 10px 14px;
-            font-size: 12px;
+            padding: 6px 10px;
+            font-size: 9px;
         }
         .layer-toggle-title {
+            font-size: 10px;
             font-weight: bold;
             color: #2c3e50;
-            margin-bottom: 6px;
-            padding-bottom: 4px;
+            margin-bottom: 4px;
+            padding-bottom: 3px;
             border-bottom: 1px solid #eee;
         }
         .layer-btn {
             display: block;
             width: 100%;
-            padding: 4px 0;
+            padding: 3px 0;
             border: none;
             background: none;
             text-align: left;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 9px;
             font-family: inherit;
             color: #555;
             border-radius: 4px;
-            padding: 3px 6px;
+            padding: 2px 5px;
             transition: all 0.2s;
         }
         .layer-btn:hover { background: #f5f5f5; }
         .layer-btn.active { color: #3498db; font-weight: bold; background: #ebf5fb; }
 
         /* 面板位置 */
-        #brandPanel {
-            top: 70px;
+        #storeFilterPanel {
+            top: 60px;
             left: 18px;
         }
         #layerPanel {
@@ -446,7 +547,7 @@
 
     <!-- 统计面板 -->
     <div class="stats-panel">
-        <div class="stats-title">🏷️ 门店标签统计</div>
+        <div class="stats-title">门店统计</div>
         <div class="stat-open" id="stat-yimiantan">🟢 已面谈: <b>0</b></div>
         <div class="stat-soon" id="stat-yixiadan">🔵 已下单: <b>0</b></div>
         <div class="stat-other" id="stat-weimiantan">⚪ 未面谈: <b>0</b></div>
@@ -456,7 +557,7 @@
     <div class="legend" id="legend"></div>
 
     <!-- 门店筛选（可折叠） -->
-    <div class="collapsible-panel" id="storeFilterPanel">
+    <div class="collapsible-panel collapsed" id="storeFilterPanel">
         <div class="panel-header" onclick="togglePanel('storeFilterPanel')">
             <span class="panel-title">🏪 门店筛选</span>
             <span class="panel-toggle">▼</span>
@@ -471,7 +572,7 @@
     </div>
 
     <!-- 图层切换（可折叠） -->
-    <div class="collapsible-panel" id="layerPanel">
+    <div class="collapsible-panel collapsed" id="layerPanel">
         <div class="panel-header" onclick="togglePanel('layerPanel')">
             <span class="panel-title">🗺️ 底图切换</span>
             <span class="panel-toggle">▼</span>
@@ -578,7 +679,7 @@
     const map = L.map('map', {
         center: [22.747, 113.87],
         zoom: 12,
-        zoomControl: true,
+        zoomControl: false,
         layers: [tileLayers.vec]
     });
 
@@ -753,24 +854,330 @@
     // 区域图例（全选/全不选）
     // ============================================================
     const legendEl = document.getElementById('legend');
+    legendEl.classList.add('collapsed');
     let legendHTML = `
-        <div class="legend-title">
+        <div class="legend-header" onclick="this.parentElement.classList.toggle('collapsed')">
             📍 区域图例
-            <span class="panel-toggle" style="font-size:10px">点击筛选</span>
+            <span class="panel-toggle" style="font-size:10px">▼</span>
         </div>
-        <div class="legend-controls">
-            <button class="legend-control-btn" onclick="selectAllRegions()">全选</button>
-            <button class="legend-control-btn" onclick="deselectAllRegions()">全不选</button>
-        </div>`;
-    allRegions.forEach(region => {
-        const color = regionColors[region] || "#888888";
-        const count = stores.filter(s => s.region === region).length;
-        legendHTML += `<div class="legend-item" id="legend-${region}" onclick="toggleRegion('${region}')">
-            <span class="legend-dot" style="background:${color}"></span>
-            ${region} (${count})
-        </div>`;
+        <div class="legend-content">
+            <div class="legend-controls">
+                <button class="legend-control-btn" onclick="selectAllRegions()">全选</button>
+                <button class="legend-control-btn" onclick="deselectAllRegions()">全不选</button>
+            </div>`;
+    
+    // 大湾区7市完整行政区划数据
+    const guangdongRegionData = {
+        "深圳市": {
+            "福田区": ["园岭", "南园", "福田", "沙头", "梅林", "华富", "香蜜湖", "莲花", "华强北", "福保"],
+            "罗湖区": ["黄贝", "翠竹", "东门", "桂园", "南湖", "笋岗", "清水河", "莲塘", "东晓", "东湖"],
+            "南山区": ["南头", "南山", "沙河", "蛇口", "招商", "粤海", "桃源", "西丽"],
+            "盐田区": ["盐田", "沙头角", "海山", "梅沙", "盐田"],
+            "宝安区": ["新安", "西乡", "航城", "福永", "福海", "沙井", "新桥", "松岗", "燕罗", "石岩"],
+            "龙岗区": ["龙城", "龙岗", "横岗", "平湖", "布吉", "坂田", "南湾", "园山", "宝龙", "吉华"],
+            "龙华区": ["龙华", "大浪", "民治", "观湖", "福城", "观澜"],
+            "坪山区": ["坪山", "坑梓", "石井", "马峦", "碧岭", "龙田"],
+            "光明区": ["光明", "公明", "新湖", "凤凰", "玉塘", "马田"]
+        },
+        "广州市": {
+            "越秀区": ["洪桥", "北京", "六榕", "流花", "光塔", "人民", "东山", "农林", "梅花村", "黄花岗", "华乐", "建设", "大塘", "珠光", "白云", "登峰", "矿泉", "沙河"],
+            "海珠区": ["赤岗", "新港", "昌岗", "江南中", "滨江", "素社", "海幢", "龙凤", "沙园", "南华西", "南石头", "凤阳", "江海", "瑞宝", "琶洲", "华洲", "官洲"],
+            "荔湾区": ["沙面", "岭南", "华林", "多宝", "逢源", "龙津", "金花", "南源", "西村", "站前", "彩虹", "桥中", "白鹤洞", "冲口", "花地", "茶滘", "石围塘", "东漖", "海龙", "中南"],
+            "天河区": ["沙河", "五山", "员村", "车陂", "石牌", "棠下", "猎德", "林和", "沙东", "兴华", "天平", "冼村", "元岗", "长兴", "凤凰", "龙洞", "前进", "新塘"],
+            "白云区": ["三元里", "松洲", "景泰", "同德", "黄石", "鹤龙", "嘉禾", "均禾", "石井", "金沙", "同和", "京溪", "永平", "人和", "太和", "钟落潭", "江高", "太和"],
+            "黄埔区": ["黄埔", "红山", "鱼珠", "大沙", "文冲", "穗东", "南岗", "长洲", "夏港", "萝岗", "联和", "永和", "九龙"],
+            "番禺区": ["市桥", "沙头", "东环", "桥南", "大龙", "沙湾", "钟村", "石壁", "大石", "洛浦", "石楼", "新造", "化龙", "南村", "小谷围"],
+            "花都区": ["新华", "花城", "秀全", "新雅", "花山", "花东", "赤坭", "炭步", "狮岭", "梯面"],
+            "南沙区": ["南沙", "珠江", "横沥", "大岗", "东涌", "万顷沙", "黄阁", "榄核", "南沙"],
+            "从化区": ["街口", "江埔", "城郊", "温泉", "良口", "吕田", "太平"],
+            "增城区": ["荔城", "增江", "朱村", "永宁", "新塘", "石滩", "中仙", "派潭", "小楼", "正果"]
+        },
+        "东莞市": {
+            "东莞": ["南城", "东城", "万江", "莞城", "石碣", "石龙", "茶山", "石排", "企石", "横沥", "桥头", "谢岗", "东坑", "常平", "虎门", "长安", "厚街", "沙田", "道滘", "洪梅", "麻涌", "望牛墩", "中堂", "高埗", "大岭山", "大朗", "黄江", "樟木头", "清溪", "塘厦", "凤岗", "谢岗"]
+        },
+        "佛山市": {
+            "禅城区": ["祖庙", "石湾", "张槎", "南庄"],
+            "南海区": ["桂城", "九江", "西樵", "丹灶", "狮山", "大沥", "里水"],
+            "顺德区": ["大良", "容桂", "伦教", "勒流", "陈村", "北滘", "乐从", "龙江", "杏坛", "均安"],
+            "三水区": ["西南", "云东海", "大塘", "乐平", "白坭", "芦苞", "南山"],
+            "高明区": ["荷城", "杨和", "明城", "更合"]
+        },
+        "珠海市": {
+            "香洲区": ["翠香", "梅华", "前山", "吉大", "拱北", "香湾", "湾仔", "唐家湾", "南屏", "横琴", "桂山", "万山", "担杆"],
+            "金湾区": ["三灶", "红旗", "南水", "平沙"],
+            "斗门区": ["井岸", "白蕉", "斗山", "乾务", "莲洲"]
+        },
+        "中山市": {
+            "中山": ["石岐", "东区", "南区", "西区", "火炬区", "五桂山", "黄圃", "东凤", "古镇", "小榄", "东升", "民众", "南朗", "港口", "三角", "三乡", "板芙", "大涌", "沙溪", "横栏", "阜沙", "南头", "古镇"]
+        },
+        "惠州市": {
+            "惠城区": ["桥东", "桥西", "江南", "江北", "龙丰", "河南岸", "惠环", "陈江", "水口", "马安", "汝湖", "三栋", "鹿江", "芦洲"],
+            "惠阳区": ["淡水", "秋长", "新圩", "镇隆", "永湖", "良井", "平潭"],
+            "惠东县": ["平山", "大岭", "白花", "梁化", "稔山", "铁涌", "平海", "吉隆", "黄埠", "多祝", "安墩", "高潭", "宝口"],
+            "博罗县": ["罗阳", "龙溪", "石湾", "园洲", "长宁", "福田", "公庄", "柏塘", "泰美", "杨村", "麻陂", "石坝", "湖镇", "横河"]
+        }
+    };
+
+    // 构建区域图例HTML - 三级联动
+    // 城市映射：根据district推断city
+    const districtToCity = {
+        "宝安区": "深圳市", "龙岗区": "深圳市", "福田区": "深圳市", 
+        "罗湖区": "深圳市", "南山区": "深圳市", "盐田区": "深圳市",
+        "龙华区": "深圳市", "坪山区": "深圳市", "光明区": "深圳市",
+        "越秀区": "广州市", "海珠区": "广州市", "荔湾区": "广州市",
+        "天河区": "广州市", "白云区": "广州市", "黄埔区": "广州市",
+        "番禺区": "广州市", "花都区": "广州市", "南沙区": "广州市",
+        "从化区": "广州市", "增城区": "广州市"
+    };
+    
+    // 为每个门店添加city字段
+    stores.forEach(s => {
+        s.city = districtToCity[s.district] || "其他";
+        s.street = s.region;  // 使用region作为街道
     });
+    
+    function buildLegendHTML() {
+        let html = '';
+        
+        // 只遍历有门店的城市
+        const citiesWithStores = [...new Set(stores.map(s => s.city))].sort();
+        
+        citiesWithStores.forEach(city => {
+            const districts = guangdongRegionData[city] || {};
+            // 筛选该城市的门店
+            const cityStores = stores.filter(s => s.city === city);
+            const cityStoreCount = cityStores.length;
+            
+            // 判断该城市是否全部选中
+            const cityStreets = [...new Set(cityStores.map(s => s.street))];
+            const allCityStreetsChecked = cityStreets.every(s => activeRegions.has(s));
+            const someCityStreetsChecked = cityStreets.some(s => activeRegions.has(s));
+            const cityCheckedClass = allCityStreetsChecked ? 'checked' : (someCityStreetsChecked ? 'indeterminate' : '');
+            
+            html += `<div class="legend-city" id="city-${city}" onclick="toggleCity('${city}')">
+                <span class="legend-city-expand">▶</span>
+                <span class="legend-checkbox ${cityCheckedClass}" id="city-chk-${city}" onclick="event.stopPropagation();toggleCityCheckbox('${city}')">${allCityStreetsChecked?'✓':(someCityStreetsChecked?'◐':'')}</span>
+                ${city} <span class="legend-city-count">(${cityStoreCount})</span>
+            </div>`;
+            html += `<div class="city-districts" id="city-districts-${city}" style="display:none">`;
+            
+            // 只遍历有门店的区
+            const districtsWithStores = [...new Set(cityStores.map(s => s.district))].sort();
+            
+            districtsWithStores.forEach(district => {
+                const streets = districts[district] || [];
+                // 筛选该区下的门店
+                const districtStores = cityStores.filter(s => s.district === district);
+                const districtStoreCount = districtStores.length;
+                
+                // 判断该区是否全部选中
+                const districtStreets = [...new Set(districtStores.map(s => s.street))];
+                const allDistrictStreetsChecked = districtStreets.every(s => activeRegions.has(s));
+                const someDistrictStreetsChecked = districtStreets.some(s => activeRegions.has(s));
+                const districtCheckedClass = allDistrictStreetsChecked ? 'checked' : (someDistrictStreetsChecked ? 'indeterminate' : '');
+                
+                html += `<div class="legend-district" id="district-${city}-${district}" onclick="event.stopPropagation();toggleDistrict('${city}', '${district}')">
+                    <span class="legend-district-expand">▶</span>
+                    <span class="legend-checkbox ${districtCheckedClass}" id="district-chk-${city}-${district}" onclick="event.stopPropagation();toggleDistrictCheckbox('${city}', '${district}')">${allDistrictStreetsChecked?'✓':(someDistrictStreetsChecked?'◐':'')}</span>
+                    ${district} <span class="legend-district-count">(${districtStoreCount})</span>
+                </div>`;
+                html += `<div class="district-streets" id="district-streets-${city}-${district}" style="display:none">`;
+                
+                // 只遍历有门店的街道
+                const streetsWithStores = [...new Set(districtStores.map(s => s.street))].sort();
+                
+                streetsWithStores.forEach(street => {
+                    // 筛选该街道下的门店
+                    const streetStoreCount = districtStores.filter(s => s.street === street).length;
+                    const isActive = activeRegions.has(street);
+                    const checkedClass = isActive ? 'checked' : '';
+                    // 获取该街道对应的颜色
+                    const streetColor = regionColors[street] || '#888888';
+                    
+                    html += `<div class="legend-street" onclick="event.stopPropagation();toggleStreet('${street}', '${city}', '${district}')">
+                        <span class="legend-checkbox ${checkedClass}" id="chk-${street}">${isActive?'✓':''}</span>
+                        <span class="legend-dot" style="background:${streetColor}"></span>
+                        ${street} (${streetStoreCount})
+                    </div>`;
+                });
+                
+                html += `</div>`;
+            });
+            
+            html += `</div>`;
+        });
+        
+        return html;
+    }
+    
+    legendHTML += buildLegendHTML();
+    legendHTML += `</div>`;
     legendEl.innerHTML = legendHTML;
+
+    // 三级联动函数
+    window.toggleCity = function(city) {
+        const el = document.getElementById('city-' + city);
+        const districtsEl = document.getElementById('city-districts-' + city);
+        const isExpanded = el.classList.contains('expanded');
+        
+        if (isExpanded) {
+            el.classList.remove('expanded');
+            districtsEl.style.display = 'none';
+        } else {
+            el.classList.add('expanded');
+            districtsEl.style.display = 'block';
+        }
+    };
+    
+    window.toggleDistrict = function(city, district) {
+        const el = document.getElementById('district-' + city + '-' + district);
+        const streetsEl = document.getElementById('district-streets-' + city + '-' + district);
+        const isExpanded = el.classList.contains('expanded');
+        
+        if (isExpanded) {
+            el.classList.remove('expanded');
+            streetsEl.style.display = 'none';
+        } else {
+            el.classList.add('expanded');
+            streetsEl.style.display = 'block';
+        }
+    };
+    
+    window.toggleStreet = function(street, city, district) {
+        if (activeRegions.has(street)) {
+            activeRegions.delete(street);
+            document.getElementById('chk-' + street).classList.remove('checked');
+            document.getElementById('chk-' + street).textContent = '';
+        } else {
+            activeRegions.add(street);
+            document.getElementById('chk-' + street).classList.add('checked');
+            document.getElementById('chk-' + street).textContent = '✓';
+        }
+        renderMarkers();
+        updateStats();
+        updateParentCheckboxes();
+    };
+    
+    // 更新城市/区的选中状态
+    function updateParentCheckboxes() {
+        // 更新每个城市的checkbox状态
+        const citiesWithStores = [...new Set(stores.map(s => s.city))].sort();
+        citiesWithStores.forEach(city => {
+            const cityStores = stores.filter(s => s.city === city);
+            const cityStreets = [...new Set(cityStores.map(s => s.street))];
+            const allChecked = cityStreets.every(s => activeRegions.has(s));
+            const someChecked = cityStreets.some(s => activeRegions.has(s));
+            
+            const chkEl = document.getElementById('city-chk-' + city);
+            if (chkEl) {
+                if (allChecked) {
+                    chkEl.classList.remove('indeterminate');
+                    chkEl.classList.add('checked');
+                    chkEl.textContent = '✓';
+                } else if (someChecked) {
+                    chkEl.classList.remove('checked');
+                    chkEl.classList.add('indeterminate');
+                    chkEl.textContent = '◐';
+                } else {
+                    chkEl.classList.remove('checked', 'indeterminate');
+                    chkEl.textContent = '';
+                }
+            }
+            
+            // 更新每个区的checkbox状态
+            const districtsWithStores = [...new Set(cityStores.map(s => s.district))].sort();
+            districtsWithStores.forEach(district => {
+                const districtStores = cityStores.filter(s => s.district === district);
+                const districtStreets = [...new Set(districtStores.map(s => s.street))];
+                const allDistrictChecked = districtStreets.every(s => activeRegions.has(s));
+                const someDistrictChecked = districtStreets.some(s => activeRegions.has(s));
+                
+                const districtChkEl = document.getElementById('district-chk-' + city + '-' + district);
+                if (districtChkEl) {
+                    if (allDistrictChecked) {
+                        districtChkEl.classList.remove('indeterminate');
+                        districtChkEl.classList.add('checked');
+                        districtChkEl.textContent = '✓';
+                    } else if (someDistrictChecked) {
+                        districtChkEl.classList.remove('checked');
+                        districtChkEl.classList.add('indeterminate');
+                        districtChkEl.textContent = '◐';
+                    } else {
+                        districtChkEl.classList.remove('checked', 'indeterminate');
+                        districtChkEl.textContent = '';
+                    }
+                }
+            });
+        });
+    }
+    
+    // 城市级全选/全不选
+    window.toggleCityCheckbox = function(city) {
+        const cityStores = stores.filter(s => s.city === city);
+        const cityStreets = [...new Set(cityStores.map(s => s.street))];
+        
+        const allChecked = cityStreets.every(s => activeRegions.has(s));
+        
+        if (allChecked) {
+            // 全部取消
+            cityStreets.forEach(street => {
+                activeRegions.delete(street);
+                const chkEl = document.getElementById('chk-' + street);
+                if (chkEl) {
+                    chkEl.classList.remove('checked');
+                    chkEl.textContent = '';
+                }
+            });
+        } else {
+            // 全部选中
+            cityStreets.forEach(street => {
+                activeRegions.add(street);
+                const chkEl = document.getElementById('chk-' + street);
+                if (chkEl) {
+                    chkEl.classList.add('checked');
+                    chkEl.textContent = '✓';
+                }
+            });
+        }
+        
+        renderMarkers();
+        updateStats();
+        updateParentCheckboxes();
+    };
+    
+    // 区级全选/全不选
+    window.toggleDistrictCheckbox = function(city, district) {
+        const districtStores = stores.filter(s => s.city === city && s.district === district);
+        const districtStreets = [...new Set(districtStores.map(s => s.street))];
+        
+        const allChecked = districtStreets.every(s => activeRegions.has(s));
+        
+        if (allChecked) {
+            // 全部取消
+            districtStreets.forEach(street => {
+                activeRegions.delete(street);
+                const chkEl = document.getElementById('chk-' + street);
+                if (chkEl) {
+                    chkEl.classList.remove('checked');
+                    chkEl.textContent = '';
+                }
+            });
+        } else {
+            // 全部选中
+            districtStreets.forEach(street => {
+                activeRegions.add(street);
+                const chkEl = document.getElementById('chk-' + street);
+                if (chkEl) {
+                    chkEl.classList.add('checked');
+                    chkEl.textContent = '✓';
+                }
+            });
+        }
+        
+        renderMarkers();
+        updateStats();
+        updateParentCheckboxes();
+    };
 
     function toggleRegion(region) {
         if (activeRegions.has(region)) {
@@ -784,21 +1191,29 @@
     }
 
     function selectAllRegions() {
-        allRegions.forEach(region => {
-            activeRegions.add(region);
-            const el = document.getElementById('legend-' + region);
-            if (el) el.classList.remove('inactive');
+        // 获取所有有门店的街道
+        const allStreetsWithStores = [...new Set(stores.map(s => s.street))];
+        allStreetsWithStores.forEach(street => {
+            activeRegions.add(street);
+            const chkEl = document.getElementById('chk-' + street);
+            if (chkEl) {
+                chkEl.classList.add('checked');
+                chkEl.textContent = '✓';
+            }
         });
         renderMarkers();
+        updateStats();
+        updateParentCheckboxes();
     }
 
     function deselectAllRegions() {
-        allRegions.forEach(region => {
-            activeRegions.delete(region);
-            const el = document.getElementById('legend-' + region);
-            if (el) el.classList.add('inactive');
+        activeRegions.clear();
+        document.querySelectorAll('.legend-checkbox').forEach(el => {
+            el.classList.remove('checked', 'indeterminate');
+            el.textContent = '';
         });
         renderMarkers();
+        updateStats();
     }
 
     // ============================================================
