@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>食为先·竞品门店分布地图</title>
+    <title>清源臻品客户地图</title>
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"/>
     <style>
@@ -30,6 +30,37 @@
             letter-spacing: 0.5px;
         }
         .map-title span { color: #ffd700; }
+
+        /* 同步按钮 */
+        .sync-btn {
+            position: fixed;
+            top: 14px;
+            right: 18px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            z-index: 1000;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(52, 152, 219, 0.4);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+        .sync-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #1a5276);
+            transform: scale(1.05);
+        }
+        .sync-btn.syncing {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            pointer-events: none;
+        }
+        .sync-btn.success {
+            background: linear-gradient(135deg, #27ae60, #1e8449);
+        }
+        .sync-btn.error {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
 
         /* 区域图例 */
         .legend {
@@ -536,7 +567,10 @@
 <body>
 
     <!-- 标题 -->
-    <div class="map-title">🗺️ 食为先·竞品门店分布地图 <span>(37/37 家)</span></div>
+    <div class="map-title">🗺️ 清源臻品客户地图 <span>(37/37 家)</span></div>
+
+    <!-- 同步按钮 -->
+    <button class="sync-btn" onclick="syncToGithub()">☁️ 同步到云端</button>
 
     <!-- 搜索框 -->
     <div class="search-box">
@@ -1314,6 +1348,41 @@
     // 右下角说明
     // ============================================================
     L.control.attribution({prefix: '© 高德地图 | 食为先竞品分析'}).addTo(map);
+
+    // ============================================================
+    // 一键同步到 GitHub
+    // ============================================================
+    window.syncToGithub = function() {
+        const btn = document.querySelector('.sync-btn');
+        btn.classList.add('syncing');
+        btn.textContent = '⏳ 打开终端...';
+
+        // 打开终端并执行同步命令
+        const scriptPath = '/Users/apple/WorkBuddy/20260405094656/图片提取/sync_github.sh';
+        const appleScript = `do shell script "cd /Users/apple/WorkBuddy/20260405094656/图片提取 && ./sync_github.sh"`;
+
+        try {
+            const script = document.createElement('a');
+            script.href = `x-terminal://${encodeURIComponent('cd /Users/apple/WorkBuddy/20260405094656/图片提取 && ./sync_github.sh')}`;
+            btn.classList.remove('syncing');
+            btn.classList.add('success');
+            btn.textContent = '✅ 请查看终端';
+            alert('请在打开的终端窗口中查看同步结果\n\n如果终端没有自动打开，请手动运行：\ncd /Users/apple/WorkBuddy/20260405094656/图片提取\n./sync_github.sh');
+            setTimeout(() => {
+                btn.classList.remove('success');
+                btn.textContent = '☁️ 同步到云端';
+            }, 5000);
+        } catch(e) {
+            btn.classList.remove('syncing');
+            btn.classList.add('error');
+            btn.textContent = '⚠️ 同步失败';
+            alert('请手动同步：\n\n1. 打开终端\n2. 运行：cd /Users/apple/WorkBuddy/20260405094656/图片提取\n3. 运行：./sync_github.sh');
+            setTimeout(() => {
+                btn.classList.remove('error');
+                btn.textContent = '☁️ 同步到云端';
+            }, 3000);
+        }
+    };
     </script>
 </body>
 </html>
