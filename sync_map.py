@@ -355,8 +355,9 @@ STREET_MAPPING = {
     "羌下": "新湖",
     # 潭头（属于福海）
     "潭头": "福海",
-    # 上寮（属于沙井）
-    "上寮": "沙井",
+    # 上寮/上星（属于新桥街道，2016年从沙井析出）
+    "上寮": "新桥",
+    "上星": "新桥",
     # 燕罗（高德返回的街道名，属于燕川/松岗片区）
     "燕罗": "燕罗",
     # 岗胜路（沙井片区）
@@ -368,11 +369,18 @@ STREET_MAPPING = {
 
 def normalize_street(township, address=""):
     """
-    混合方式确定街道：
-    1. 优先使用高德 API 返回的 township
-    2. 如果没有，再用地址关键词匹配
+    混合方式确定街道（优先级：关键词匹配 > 高德API）：
+    1. 优先使用地址关键词匹配（更可靠）
+    2. 其次使用高德 API 返回的 township
+    3. 如果都没有，返回"其他"
     """
-    # 方式1：使用高德 API 返回的街道
+    # 方式1：优先用地址关键词匹配（更可靠）
+    if address:
+        for keyword, street in STREET_MAPPING.items():
+            if keyword in address:
+                return street
+    
+    # 方式2：使用高德 API 返回的街道
     if township:
         # 清洗后缀
         clean = township.replace("街道", "").replace("镇", "").replace("管理处", "")
@@ -381,11 +389,6 @@ def normalize_street(township, address=""):
         # 如果在映射表里找不到，也直接返回
         if clean:
             return clean
-    
-    # 方式2：用地址关键词匹配
-    for keyword, street in STREET_MAPPING.items():
-        if keyword in address:
-            return street
     
     # 默认
     return "其他"

@@ -1,34 +1,13 @@
 # 竞品门店地图项目
 
 ## 关键文件
-- `sync_map.py`: 同步脚本（从 Excel 读取数据，调用高德 API 生成地图）
-- `shop_map.html`: 主地图文件
-- `shop_map_offline.html`: 地图模板
-- `stores.json`: 门店数据
-- `check_streets.py`: 街道分类检测脚本（新增门店后必运行）
+- `shop_map.html`: 主地图文件（数据已嵌入代码）
+- `竞品店铺信息汇总.xlsx`: 门店数据表格
+- `地图标注方案.md`: 标注方案文档
+- `sync_map.py`: 同步脚本（备选）
+- `check_streets.py`: 街道分类检测脚本
 
-## 地图功能
-- 左侧面板：门店筛选（checkbox，支持全选/全不选）
-- 右侧底部：区域图例（点击筛选，支持全选/全不选）
-- 底图切换：矢量/卫星/地形
-- 搜索框：按门店名称搜索
-- 可折叠面板
-- **门店标签**：已面谈/已下单/未面谈（点击门店弹窗选择，数据存储在 localStorage）
-
-## 街道标准化
-高德 API 返回的街道经过 `normalize_street()` 函数标准化，映射表在 sync_map.py 中定义。
-
-## 当前街道分布（2026-04-05 更新）
-| 街道 | 数量 |
-|------|------|
-| 松岗 | 7 |
-| 凤凰 | 5 |
-| 玉塘 | 5 |
-| 沙井 | 4 |
-| 新桥 | 4 |
-| 马田 | 3 |
-| 公明 | 2 |
-| 福永 | 2 |
-| 福海 | 2 |
-| 新湖 | 2 |
-| 燕罗 | 1 |
+## GitHub 同步
+- 仓库：https://github.com/koolboy1978-ctrl/shop-map
+- GitHub Pages：https://koolboy1978-ctrl.github.io/shop-map/shop_map.html
+- 注意：必须用完整路径 `/shop_map.html` 访问
